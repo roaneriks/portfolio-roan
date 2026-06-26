@@ -1,3 +1,10 @@
 .DS_Store
-Content/.DS_Store
-Content/IKEA/.DS_Store
+*/.DS_Store
+
+# Unused large/unservable files
+Content/247A0895.jpg
+Content/247A1054.jpg
+Content/DCS/ICECUBE render.tif
+Content/DCS/Portfolio Roan Eriks 2025 13.j2k
+Content/Japandi table/Japandi table zoomed.tif
+Content/Japandi table/Japandi table.tif

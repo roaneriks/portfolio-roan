@@ -278,12 +278,9 @@ body {
 .panel--reverse .panel__text  { order: 2; }
 .panel--reverse .panel__media { order: 1; }
 
-/* Scroll-snap — homepage only (scoped via .is-home on <html>).
-   Starts at proximity (gentle) so it cooperates with Lenis smooth scroll
-   rather than fighting it on trackpads. */
-html.is-home { scroll-snap-type: y proximity; }
-.is-home .hero,
-.is-home .panel { scroll-snap-align: start; }
+/* Scroll-snap is intentionally NOT set with CSS here.
+   See js/motion.js — panel snapping is driven entirely by lenis.scrollTo()
+   so there is only one easing curve and no fighting between native snap and Lenis. */
 
 /* =========================================================================
    PAGE STUB  — placeholder routes (Step 1 skeleton only).
@@ -421,6 +418,23 @@ html.is-home { scroll-snap-type: y proximity; }
 }
 
 .cs-block__body + .cs-block__body { margin-top: var(--space-md); }
+
+.cs-block__quote {
+  margin-top: var(--space-lg);
+  padding-left: var(--space-md);
+  border-left: 2px solid var(--color-accent);
+  font-style: italic;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+}
+
+/* Ensure real images inside cs-hero-media fill the container */
+.cs-hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
 /* Detail image: contained within the content column, freeform ratio. */
 .cs-img {
@@ -669,11 +683,28 @@ html.is-home { scroll-snap-type: y proximity; }
 /* Full-bleed portrait at top (nav sits over it, like the homepage hero). */
 .about-portrait {
   width: 100%;
-  height: clamp(420px, 82vh, 880px);
-  background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
+  height: clamp(320px, 60vh, 640px);
+  overflow: hidden;
 }
 
-.about-intro { padding-block: var(--space-3xl); }
+.about-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+
+.about-intro {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2xl);
+  align-items: start;
+  padding-top: calc(var(--space-3xl) + 48px);
+  padding-bottom: var(--space-3xl);
+}
+
+.about-intro__content { min-width: 0; }
 
 /* Opening statement, larger and set in the display face. */
 .about-intro__lead {
@@ -686,10 +717,22 @@ html.is-home { scroll-snap-type: y proximity; }
   margin-bottom: var(--space-xl);
 }
 
-.about-intro__body { max-width: 640px; }
+.about-intro__body { max-width: 560px; }
 
 .about-intro__body p { color: var(--color-text-secondary); }
 .about-intro__body p + p { margin-top: var(--space-md); }
+
+.about-intro__image {
+  width: clamp(220px, 28vw, 380px);
+  flex-shrink: 0;
+}
+
+.about-intro__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
 
 /* Skills / education strip — highlights only, not a full CV. */
 .about-strip {
