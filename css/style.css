@@ -1,0 +1,962 @@
+/* =========================================================================
+   STYLE — reset, base, components.
+   Tokens (tokens.css) and @font-face (fonts.css) load BEFORE this file.
+   ========================================================================= */
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body,
+h1, h2, h3, h4, p, figure, blockquote, ul, ol,
+dl, dt, dd {
+  margin: 0;
+}
+
+img,
+picture,
+svg { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Base ---------- */
+body {
+  background: var(--color-base);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Visible focus for keyboard users (accessibility). */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Centred content wrapper. */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
+}
+
+/* Small reusable mono label, always in accent navy. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+/* =========================================================================
+   NAV  (shared component, injected by js/nav.js)
+   Default state: full-width pill flush at the top. Scrolled state: compact
+   floating pill (toggled by js/motion.js adding .is-scrolled).
+   ========================================================================= */
+.nav {
+  position: fixed;          /* stays sticky as the user scrolls */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-sm) var(--page-padding) 0;
+  transition: padding 0.4s var(--ease-soft);
+}
+
+.nav__pill {
+  width: 100%;
+  max-width: var(--max-width);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 12px 16px 12px 20px;
+  background: var(--color-base);
+  border: var(--border-hairline);
+  border-radius: 999px;
+  /* Morph properties animate between default and compact states. */
+  transition: max-width 0.4s var(--ease-soft),
+              padding 0.4s var(--ease-soft),
+              box-shadow 0.4s var(--ease-soft);
+}
+
+/* Compact floating pill on scroll. */
+.nav.is-scrolled { padding-top: var(--space-sm); }
+
+.nav.is-scrolled .nav__pill {
+  max-width: 760px;
+  padding: 10px 14px 10px 18px;
+  box-shadow: 0 8px 30px rgba(11, 11, 11, 0.08);
+}
+
+.nav__logo {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(var(--space-sm), 2vw, var(--space-lg));
+}
+
+.nav__link {
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-label);
+  color: var(--color-text);
+  transition: color 0.2s ease;
+}
+
+.nav__link:hover,
+.nav__link.is-active { color: var(--color-accent); }
+
+/* Mobile menu toggle — hidden on desktop, shown in the responsive pass. */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav__toggle span {
+  display: block;
+  height: 1.5px;
+  width: 20px;
+  margin-inline: auto;
+  background: var(--color-text);
+  transition: transform 0.3s var(--ease-soft), opacity 0.2s ease;
+}
+
+/* =========================================================================
+   HERO  (homepage)  — 100vh, oversized stacked title left, aside top-right.
+   ========================================================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;          /* aside aligns to vertical middle of title */
+  gap: var(--space-2xl);
+  width: 100%;
+  padding-block: var(--space-3xl) var(--space-2xl);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+.hero__title span { display: block; }   /* stack the lines */
+
+/* Top-right catchphrase + contact block. */
+.hero__aside {
+  max-width: 28ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.hero__catch {
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: var(--leading-snug);
+}
+
+.hero__email {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+.hero__email:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* =========================================================================
+   FEATURED WORK  — checkerboard, one 100vh panel per project.
+   Alternating: text-left/photo-right  →  photo-left/text-right  → repeat.
+   (Static for now. Scroll-snap is added in the motion phase.)
+   ========================================================================= */
+.work {
+  border-top: var(--border-hairline);
+}
+
+.panel {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: var(--border-hairline);
+}
+
+/* Text tile. Project copy anchors to the BOTTOM of the tile. */
+.panel__text {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-2xl) var(--page-padding);
+  background: var(--color-base);
+}
+
+.panel__num {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-lg);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.panel__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-display);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+
+.panel__title a { transition: color 0.2s ease; }
+.panel__title a:hover { color: var(--color-accent); }
+
+.panel__desc {
+  margin-top: var(--space-sm);
+  max-width: 38ch;
+  color: var(--color-text-secondary);
+}
+
+/* Photo tile. Solid surface placeholder until real assets land.
+   overflow:hidden + inner element gives us the subtle hover scale. */
+.panel__media {
+  order: 2;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.panel__media-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.panel__media-inner {
+  width: 100%;
+  height: 100%;
+  min-height: 50vh;
+  background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
+  transition: transform var(--dur-slow) var(--ease-soft);
+}
+
+.panel__media-link:hover .panel__media-inner { transform: scale(1.03); }
+
+/* Reverse panels: photo left, text right. */
+.panel--reverse .panel__text  { order: 2; }
+.panel--reverse .panel__media { order: 1; }
+
+/* Scroll-snap — homepage only (scoped via .is-home on <html>).
+   Starts at proximity (gentle) so it cooperates with Lenis smooth scroll
+   rather than fighting it on trackpads. */
+html.is-home { scroll-snap-type: y proximity; }
+.is-home .hero,
+.is-home .panel { scroll-snap-align: start; }
+
+/* =========================================================================
+   PAGE STUB  — placeholder routes (Step 1 skeleton only).
+   ========================================================================= */
+.page-stub {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-3xl);
+}
+
+.page-stub h1 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-display);
+}
+
+.page-stub p {
+  color: var(--color-text-secondary);
+  margin-top: var(--space-sm);
+}
+
+/* =========================================================================
+   CASE STUDY  — shared template for all four project pages.
+   One set of classes; each page reuses the same structure with its own copy.
+   Layout rhythm: padded .container sections interleaved with full-bleed media.
+   ========================================================================= */
+
+/* ---- Hero block (number, title, descriptor, metadata strip) ---- */
+.cs-hero {
+  /* Generous top padding clears the absolutely-positioned nav pill. */
+  padding-top: clamp(120px, 16vh, 180px);
+  padding-bottom: var(--space-xl);
+}
+
+.cs-hero__num {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-lg);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+.cs-hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+  margin-top: var(--space-sm);
+}
+
+.cs-hero__desc {
+  margin-top: var(--space-sm);
+  font-size: var(--text-mono-lg);
+  color: var(--color-text-secondary);
+  max-width: 48ch;
+}
+
+/* Metadata strip: Role · Context · Year · Type.
+   Tiny General Sans labels (muted) over Space Mono values (navy, per the
+   "mono is always accent" rule). */
+.cs-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg) var(--space-2xl);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: var(--border-hairline);
+}
+
+.cs-meta__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-meta__label {
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.cs-meta__value {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+/* ---- Full-bleed hero image (16:9, edge to edge, no margin) ---- */
+.cs-hero-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
+}
+
+/* ---- Intro paragraph (the punchy "so what") ---- */
+.cs-intro {
+  max-width: 640px;
+  font-size: var(--text-mono-lg);     /* slightly larger than body for emphasis */
+  line-height: var(--leading-snug);
+  padding-block: var(--space-2xl);
+}
+
+/* ---- Content blocks (alternating layouts) ---- */
+.cs-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
+}
+
+.cs-block__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.cs-block__heading {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-heading);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+
+.cs-block__body {
+  margin-top: var(--space-md);
+  color: var(--color-text-secondary);
+}
+
+.cs-block__body + .cs-block__body { margin-top: var(--space-md); }
+
+/* Detail image: contained within the content column, freeform ratio. */
+.cs-img {
+  display: block;
+  width: 100%;
+  background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
+}
+
+/* Variant A — full-width: text above, full-column image below. */
+.cs-block--full .cs-block__text { max-width: 720px; }
+.cs-block--full .cs-img {
+  margin-top: var(--space-xl);
+  aspect-ratio: 16 / 9;
+}
+
+/* Variant B — split: text + image side by side. */
+.cs-block--split,
+.cs-block--split-reverse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+}
+
+.cs-block--split .cs-img,
+.cs-block--split-reverse .cs-img { aspect-ratio: 4 / 3; }
+
+/* Variant C — split reverse: image first (left), text right. */
+.cs-block--split-reverse .cs-block__text  { order: 2; }
+.cs-block--split-reverse .cs-block__media { order: 1; }
+
+/* ---- Next project strip (minimal footer row) ---- */
+.cs-next {
+  display: block;
+  border-top: var(--border-hairline);
+}
+
+.cs-next__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-block: var(--space-2xl);
+}
+
+.cs-next__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+  margin-bottom: var(--space-xs);
+}
+
+.cs-next__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-display);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease;
+}
+
+.cs-next__arrow {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  color: var(--color-text);
+  transition: transform var(--dur-slow) var(--ease-soft), color 0.2s ease;
+}
+
+.cs-next:hover .cs-next__title { color: var(--color-accent); }
+.cs-next:hover .cs-next__arrow {
+  color: var(--color-accent);
+  transform: translateX(12px);
+}
+
+/* =========================================================================
+   PROJECTS INDEX  — header + filter bar + two-column card grid.
+   ========================================================================= */
+.projects {
+  /* Clear the absolutely-positioned nav pill. */
+  padding-top: clamp(120px, 16vh, 180px);
+  padding-bottom: var(--space-3xl);
+}
+
+/* ---- Header: title left, meta + filter right ---- */
+.projects-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: var(--border-hairline);
+}
+
+.projects-header__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+.projects-header__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-md);
+  text-align: right;
+}
+
+.projects-header__meta {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+/* Filter bar */
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+}
+
+.filter__btn {
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-label);
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.filter__btn:hover { color: var(--color-text); }
+
+.filter__btn.is-active { color: var(--color-accent); }
+
+/* ---- Card grid (two columns, scales gracefully) ---- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-base);
+  border: var(--border-hairline);
+  transition: background-color 0.25s ease;
+}
+
+.card:hover { background: var(--color-hover); }   /* subtle background shift */
+
+/* Thumbnail: fixed height, object-fit cover, number overlaid top-left. */
+.card__media {
+  position: relative;
+  height: clamp(220px, 26vw, 320px);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
+}
+
+.card__num {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-lg);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-lg);
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-heading);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+
+.card__desc {
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
+.card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  list-style: none;
+  padding: 0;
+}
+
+.card__tags li {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+/* Arrow: hidden until the card is hovered/focused. */
+.card__arrow {
+  font-family: var(--font-display);
+  font-size: var(--text-heading);
+  line-height: 1;
+  color: var(--color-text);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s var(--ease-soft);
+}
+
+.card:hover .card__arrow,
+.card:focus-visible .card__arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* =========================================================================
+   ABOUT
+   ========================================================================= */
+/* Full-bleed portrait at top (nav sits over it, like the homepage hero). */
+.about-portrait {
+  width: 100%;
+  height: clamp(420px, 82vh, 880px);
+  background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
+}
+
+.about-intro { padding-block: var(--space-3xl); }
+
+/* Opening statement, larger and set in the display face. */
+.about-intro__lead {
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-display);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-xl);
+}
+
+.about-intro__body { max-width: 640px; }
+
+.about-intro__body p { color: var(--color-text-secondary); }
+.about-intro__body p + p { margin-top: var(--space-md); }
+
+/* Skills / education strip — highlights only, not a full CV. */
+.about-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2xl);
+  padding-block: var(--space-2xl);
+  border-top: var(--border-hairline);
+}
+
+.about-strip__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+  margin-bottom: var(--space-md);
+}
+
+.about-strip__list { list-style: none; padding: 0; }
+
+.about-strip__list li { padding-block: var(--space-xs); }
+.about-strip__list li + li { border-top: var(--border-hairline); }
+
+.about-strip__list small {
+  display: block;
+  font-size: var(--text-mono);
+  color: var(--color-text-secondary);
+}
+
+/* =========================================================================
+   CONTACT
+   ========================================================================= */
+.contact {
+  padding-top: clamp(140px, 24vh, 280px);
+  padding-bottom: var(--space-3xl);
+}
+
+.contact__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+.contact__line {
+  max-width: 42ch;
+  margin-top: var(--space-md);
+  font-size: var(--text-mono-lg);
+  color: var(--color-text-secondary);
+}
+
+.contact__links {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-2xl);
+  border-top: var(--border-hairline);
+}
+
+.contact__link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-block: var(--space-lg);
+  border-bottom: var(--border-hairline);
+}
+
+.contact__link-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.contact__link-value {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-heading);
+  letter-spacing: -0.01em;
+  text-align: right;
+  transition: color 0.2s ease;
+}
+
+.contact__link:hover .contact__link-value { color: var(--color-accent); }
+
+/* =========================================================================
+   PLAYGROUND  — masonry grid (CSS multi-column). Sketchbook feel, no
+   enforced uniformity; each tile carries its own aspect ratio.
+   ========================================================================= */
+.playground {
+  padding-top: clamp(120px, 16vh, 180px);
+  padding-bottom: var(--space-3xl);
+}
+
+.playground-header__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+  max-width: 16ch;
+}
+
+.masonry {
+  columns: 3;
+  column-gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+}
+
+.masonry__item {
+  break-inside: avoid;
+  margin-bottom: var(--space-2xl);
+}
+
+.masonry__media {
+  width: 100%;
+  background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
+  margin-bottom: var(--space-md);
+}
+
+/* Varied tile ratios — the "no enforced uniformity" sketchbook feel. */
+.masonry__media--tall   { aspect-ratio: 3 / 4; }
+.masonry__media--wide   { aspect-ratio: 4 / 3; }
+.masonry__media--square { aspect-ratio: 1 / 1; }
+
+.masonry__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-heading);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+
+.masonry__note {
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
+/* =========================================================================
+   RESPONSIVE  — minimal collapse so nothing breaks on small screens.
+   (A full responsive pass is a later build step.)
+   ========================================================================= */
+@media (max-width: 768px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .nav__links { gap: var(--space-sm); }
+
+  /* Stack each checkerboard panel: text above, media below. */
+  .panel,
+  .panel--reverse {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .panel__text,
+  .panel--reverse .panel__text { order: 1; padding-block: var(--space-xl); }
+
+  .panel__media,
+  .panel--reverse .panel__media { order: 2; }
+
+  .panel__media-inner { min-height: 56vw; }
+
+  /* Case study: split blocks stack to a single column. */
+  .cs-block--split,
+  .cs-block--split-reverse {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  /* When stacked, keep image below text for the reverse variant too. */
+  .cs-block--split-reverse .cs-block__text  { order: 1; }
+  .cs-block--split-reverse .cs-block__media { order: 2; }
+
+  .cs-next__title,
+  .cs-next__arrow { font-size: var(--text-heading); }
+
+  /* Projects index: single-column grid, header stacks to the left. */
+  .projects-grid { grid-template-columns: 1fr; }
+
+  .projects-header__side {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* About: skills/education strip stacks. */
+  .about-strip {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+/* ---- Masonry column reductions ---- */
+@media (max-width: 960px) {
+  .masonry { columns: 2; }
+}
+
+@media (max-width: 600px) {
+  .masonry { columns: 1; }
+}
+
+/* =========================================================================
+   MOBILE NAV  — hamburger toggle + collapsible menu.
+   Below 640px the inline links are replaced by a toggle that drops the
+   links down inside the pill.
+   ========================================================================= */
+@media (max-width: 640px) {
+  /* gap:0 so the collapsed links row adds no height; open spacing comes from
+     the links' own padding-top. */
+  .nav__pill { flex-wrap: wrap; gap: 0; border-radius: 22px; }
+
+  .nav.is-scrolled .nav__pill { border-radius: 22px; }
+
+  .nav__logo  { order: 1; }
+  .nav__toggle { display: flex; order: 2; }
+
+  .nav__links {
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s var(--ease-soft),
+                opacity 0.2s ease,
+                padding 0.3s var(--ease-soft);
+  }
+
+  .nav__links.is-open {
+    max-height: 320px;
+    opacity: 1;
+    padding-top: var(--space-md);
+  }
+
+  /* Hamburger → X when open. */
+  .nav__toggle.is-open span:first-child { transform: translateY(2.75px) rotate(45deg); }
+  .nav__toggle.is-open span:last-child  { transform: translateY(-2.75px) rotate(-45deg); }
+}
+
+/* =========================================================================
+   SMALL-SCREEN POLISH  — title sizing and row stacking below 600px.
+   ========================================================================= */
+@media (max-width: 600px) {
+  .hero__title,
+  .cs-hero__title,
+  .contact__title,
+  .projects-header__title,
+  .playground-header__title {
+    font-size: clamp(2rem, 8.5vw, 2.5rem);
+  }
+
+  /* Contact rows: stack label over value, left-aligned. */
+  .contact__link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  .contact__link-value {
+    text-align: left;
+    font-size: var(--text-heading);
+    overflow-wrap: anywhere;
+  }
+}

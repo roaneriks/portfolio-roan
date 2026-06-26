@@ -1,0 +1,70 @@
+/* =========================================================================
+   DESIGN TOKENS — Roan Eriks Portfolio
+   Single source of truth for colour, type, spacing, layout.
+   Loaded BEFORE any component styles (per brief). Never hard-code these
+   values in components — always reference the custom property.
+   ========================================================================= */
+
+:root {
+  /* ---------- Colour ---------- */
+  --color-base: #FAFAF8;          /* page background everywhere */
+  --color-text: #0B0B0B;          /* titles, body copy */
+  --color-accent: #1E3A5F;        /* links, project numbers, hover, tags — sparingly */
+  --color-surface: #E9E9E6;       /* tiles, dividers, card backgrounds, placeholders */
+  --color-hover: #F1F1EE;         /* subtle card hover tint (between base and surface) */
+  --color-text-secondary: #5A5A57;/* captions, descriptors, metadata */
+
+  /* ---------- Type families ---------- */
+  /* Clash Display + General Sans are self-hosted (see fonts.css).
+     System fallbacks keep the layout sane until the font files land. */
+  --font-display: 'Clash Display', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    'General Sans', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* ---------- Type weights ---------- */
+  /* Brief: only 400 and 500/600. Never 700+. */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-display: 600;
+
+  /* ---------- Type scale (fluid clamp: min, preferred, max) ---------- */
+  --text-hero:    clamp(2.75rem, 1.6rem + 5.2vw, 4.5rem);   /* 44 → 72px  hero title */
+  --text-display: clamp(2.375rem, 1.7rem + 2.8vw, 3.25rem); /* 38 → 52px  project/section titles */
+  --text-heading: clamp(1.5rem, 1.25rem + 1.1vw, 2rem);     /* 24 → 32px  sub-section headers (case study blocks) */
+  --text-body:    clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);/* 15 → 17px body copy */
+  --text-label:   0.875rem;                                 /* 14px nav links, metadata, tags */
+  --text-mono:    0.8125rem;                                /* 13px project numbers / metadata */
+  --text-mono-lg: clamp(0.875rem, 0.8rem + 0.4vw, 1.125rem);/* 14 → 18px larger mono accents */
+
+  /* ---------- Line height & tracking ---------- */
+  --leading-tight: 1.02;   /* display headlines */
+  --leading-snug: 1.2;
+  --leading-body: 1.55;    /* paragraphs */
+  --tracking-mono: 0.04em; /* mono labels read better with a little spacing */
+
+  /* ---------- Spacing scale (8px base unit) ---------- */
+  --space-xs:  8px;
+  --space-sm:  16px;
+  --space-md:  24px;
+  --space-lg:  32px;
+  --space-xl:  48px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+
+  /* ---------- Layout ---------- */
+  --max-width: 1400px;     /* centred content cap */
+  --page-padding: 32px;    /* horizontal page gutter */
+
+  /* ---------- Borders ---------- */
+  --border-color: var(--color-surface);
+  --border-hairline: 0.5px solid var(--color-surface);
+
+  /* ---------- Motion (values reserved for the later motion phase) ---------- */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-slow: 0.6s;
+}
+
+/* Tighten the page gutter on small screens. */
+@media (max-width: 600px) {
+  :root { --page-padding: 20px; }
+}

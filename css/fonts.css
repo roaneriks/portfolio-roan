@@ -1,0 +1,37 @@
+/* =========================================================================
+   SELF-HOSTED FONTS
+   Clash Display + General Sans are self-hosted per the brief (do NOT load
+   the Fontshare API in production). Drop the .woff2 files into /fonts/ —
+   see /fonts/README.md for the exact filenames expected below.
+
+   Until those files are added, the layout falls back to the system stack
+   defined in tokens.css, so the page still renders correctly.
+
+   Space Mono is loaded from Google Fonts via a <link> in each page <head>.
+   ========================================================================= */
+
+/* ---------- Clash Display (Display — weight 600) ---------- */
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- General Sans (Body 400, Label 500) ---------- */
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fonts/GeneralSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fonts/GeneralSans-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

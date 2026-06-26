@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playground — Roan Eriks</title>
+  <meta name="description" content="Things Roan makes when no one's watching." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="playground container">
+    <header class="playground-header">
+      <h1 class="playground-header__title">Things I make when no one's watching</h1>
+    </header>
+
+    <div class="masonry">
+      <!-- Each tile sets its own ratio — no enforced uniformity. -->
+      <article class="masonry__item">
+        <div class="masonry__media masonry__media--tall" role="img" aria-label="Vibe code project (placeholder)"></div>
+        <h2 class="masonry__title">Vibe code project</h2>
+        <p class="masonry__note">A late-night experiment in coding by feel — chasing a mood instead of a spec and seeing what falls out.</p>
+      </article>
+
+      <article class="masonry__item">
+        <div class="masonry__media masonry__media--square" role="img" aria-label="Organising a Claude Code class (placeholder)"></div>
+        <h2 class="masonry__title">Organising a Claude Code class</h2>
+        <p class="masonry__note">Putting together a hands-on session to teach friends how to build with Claude Code, from zero to something that runs.</p>
+      </article>
+
+      <article class="masonry__item">
+        <div class="masonry__media masonry__media--wide" role="img" aria-label="T-shirt design (placeholder)"></div>
+        <h2 class="masonry__title">T-shirt design</h2>
+        <p class="masonry__note">A graphic that wandered off a sketchbook page and onto fabric. Wearable, slightly absurd, entirely for fun.</p>
+      </article>
+    </div>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/motion.js"></script>
+</body>
+</html>
