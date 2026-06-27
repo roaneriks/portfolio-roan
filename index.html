@@ -14,100 +14,100 @@
   <!-- Shared nav, injected by js/nav.js -->
   <div id="site-nav"></div>
 
-  <main>
-    <!-- ============================================================
-         HERO — 100vh. Oversized stacked title left, aside top-right.
-         NOTE: headline + catchphrase copy below is PLACEHOLDER, written
-         to the brief's positioning. Flagged for Roan to confirm/replace.
-         ============================================================ -->
-    <section class="hero">
-      <div class="hero__inner container">
-        <h1 class="hero__title">
-          <span>I make the thing</span>
-          <span>and shape the</span>
-          <span>strategy behind it.</span>
-        </h1>
+  <!-- snap-container: GSAP translates this element to reveal each panel.
+       overflow:hidden on body clips everything outside the viewport. -->
+  <div class="snap-container">
 
-        <aside class="hero__aside">
-          <p class="hero__catch">
-            Industrial product designer working at the intersection of
-            product and business strategy. Based in Barcelona.
-          </p>
-          <a class="hero__email" href="mailto:roan.eriks@gmail.com">roan.eriks@gmail.com</a>
-        </aside>
-      </div>
-    </section>
+    <main>
+      <!-- ============================================================
+           HERO — 100vh. Oversized stacked title left, aside top-right.
+           ============================================================ -->
+      <section class="hero snap-panel">
+        <div class="hero__inner container">
+          <h1 class="hero__title">
+            <span>I make the thing</span>
+            <span>and shape the</span>
+            <span>strategy behind it.</span>
+          </h1>
 
-    <!-- ============================================================
-         FEATURED WORK — checkerboard, one 100vh panel per project.
-         Static for now (scroll-snap + hover land in the motion phase).
-         Placeholder photo tiles use the #E9E9E6 surface fill.
-         ============================================================ -->
-    <section class="work" aria-label="Featured projects">
+          <aside class="hero__aside">
+            <p class="hero__catch">
+              Industrial product designer working at the intersection of
+              product and business strategy. Based in Barcelona.
+            </p>
+            <a class="hero__email" href="mailto:roan.eriks@gmail.com">roan.eriks@gmail.com</a>
+          </aside>
+        </div>
+      </section>
 
-      <!-- 01 · text-left / photo-right -->
-      <article class="panel">
-        <div class="panel__text">
-          <p class="panel__num">01</p>
-          <h2 class="panel__title"><a href="/projects/ikea-hej">IKEA Hej</a></h2>
-          <p class="panel__desc">Future of loyalty &amp; engagement</p>
-        </div>
-        <div class="panel__media">
-          <a class="panel__media-link" href="/projects/ikea-hej" aria-label="View IKEA Hej case study">
-            <span class="panel__media-inner" role="img" aria-label="IKEA Hej project image (placeholder)"></span>
-          </a>
-        </div>
-      </article>
+      <!-- ============================================================
+           FEATURED WORK — checkerboard, one 100vh panel per project.
+           ============================================================ -->
+      <section class="work" aria-label="Featured projects">
 
-      <!-- 02 · photo-left / text-right -->
-      <article class="panel panel--reverse">
-        <div class="panel__text">
-          <p class="panel__num">02</p>
-          <h2 class="panel__title"><a href="/projects/dutch-climate">Dutch Climate Systems</a></h2>
-          <p class="panel__desc">Project management &amp; product innovation</p>
-        </div>
-        <div class="panel__media">
-          <a class="panel__media-link" href="/projects/dutch-climate" aria-label="View Dutch Climate Systems case study">
-            <span class="panel__media-inner" role="img" aria-label="Dutch Climate Systems project image (placeholder)"></span>
-          </a>
-        </div>
-      </article>
+        <!-- 01 · text-left / photo-right -->
+        <article class="panel snap-panel">
+          <div class="panel__text">
+            <p class="panel__num">01</p>
+            <h2 class="panel__title"><a href="/projects/ikea-hej">IKEA Hej</a></h2>
+            <p class="panel__desc">Future of loyalty &amp; engagement</p>
+          </div>
+          <div class="panel__media">
+            <a class="panel__media-link" href="/projects/ikea-hej" aria-label="View IKEA Hej case study">
+              <span class="panel__media-inner" role="img" aria-label="IKEA Hej project image (placeholder)"></span>
+            </a>
+          </div>
+        </article>
 
-      <!-- 03 · text-left / photo-right -->
-      <article class="panel">
-        <div class="panel__text">
-          <p class="panel__num">03</p>
-          <h2 class="panel__title"><a href="/projects/trends-report">Trends Report</a></h2>
-          <p class="panel__desc">Strategic foresight for retail</p>
-        </div>
-        <div class="panel__media">
-          <a class="panel__media-link" href="/projects/trends-report" aria-label="View Trends Report case study">
-            <span class="panel__media-inner" role="img" aria-label="Trends Report project image (placeholder)"></span>
-          </a>
-        </div>
-      </article>
+        <!-- 02 · photo-left / text-right -->
+        <article class="panel panel--reverse snap-panel">
+          <div class="panel__text">
+            <p class="panel__num">02</p>
+            <h2 class="panel__title"><a href="/projects/dutch-climate">Dutch Climate Systems</a></h2>
+            <p class="panel__desc">Project management &amp; product innovation</p>
+          </div>
+          <div class="panel__media">
+            <a class="panel__media-link" href="/projects/dutch-climate" aria-label="View Dutch Climate Systems case study">
+              <span class="panel__media-inner" role="img" aria-label="Dutch Climate Systems project image (placeholder)"></span>
+            </a>
+          </div>
+        </article>
 
-      <!-- 04 · photo-left / text-right -->
-      <article class="panel panel--reverse">
-        <div class="panel__text">
-          <p class="panel__num">04</p>
-          <h2 class="panel__title"><a href="/projects/japandi-table">Japandi Table</a></h2>
-          <p class="panel__desc">Self-assembly furniture design</p>
-        </div>
-        <div class="panel__media">
-          <a class="panel__media-link" href="/projects/japandi-table" aria-label="View Japandi Table case study">
-            <span class="panel__media-inner" role="img" aria-label="Japandi Table project image (placeholder)"></span>
-          </a>
-        </div>
-      </article>
+        <!-- 03 · text-left / photo-right -->
+        <article class="panel snap-panel">
+          <div class="panel__text">
+            <p class="panel__num">03</p>
+            <h2 class="panel__title"><a href="/projects/trends-report">Trends Report</a></h2>
+            <p class="panel__desc">Strategic foresight for retail</p>
+          </div>
+          <div class="panel__media">
+            <a class="panel__media-link" href="/projects/trends-report" aria-label="View Trends Report case study">
+              <span class="panel__media-inner" role="img" aria-label="Trends Report project image (placeholder)"></span>
+            </a>
+          </div>
+        </article>
 
-    </section>
-  </main>
+        <!-- 04 · photo-left / text-right -->
+        <article class="panel panel--reverse snap-panel">
+          <div class="panel__text">
+            <p class="panel__num">04</p>
+            <h2 class="panel__title"><a href="/projects/japandi-table">Japandi Table</a></h2>
+            <p class="panel__desc">Self-assembly furniture design</p>
+          </div>
+          <div class="panel__media">
+            <a class="panel__media-link" href="/projects/japandi-table" aria-label="View Japandi Table case study">
+              <span class="panel__media-inner" role="img" aria-label="Japandi Table project image (placeholder)"></span>
+            </a>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+  </div><!-- /.snap-container -->
 
   <script src="/js/nav.js"></script>
-  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="/js/motion.js"></script>
 </body>
 </html>

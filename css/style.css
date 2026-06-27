@@ -278,9 +278,25 @@ body {
 .panel--reverse .panel__text  { order: 2; }
 .panel--reverse .panel__media { order: 1; }
 
-/* Scroll-snap is intentionally NOT set with CSS here.
-   See js/motion.js — panel snapping is driven entirely by lenis.scrollTo()
-   so there is only one easing curve and no fighting between native snap and Lenis. */
+/* =========================================================================
+   HOMEPAGE GSAP SNAP
+   body.is-home locks native scroll; .snap-container slides via gsap.to(y).
+   Each .snap-panel is exactly 100vh so the translate offset is always a
+   clean multiple of the viewport height.
+   ========================================================================= */
+body.is-home {
+  overflow: hidden;
+}
+
+.snap-container {
+  /* Sits at the top of the stacking context. GSAP animates translateY. */
+  will-change: transform;
+}
+
+.snap-panel {
+  height: 100vh;
+  overflow: hidden;   /* clips content that would otherwise spill below 100vh */
+}
 
 /* =========================================================================
    PAGE STUB  — placeholder routes (Step 1 skeleton only).
