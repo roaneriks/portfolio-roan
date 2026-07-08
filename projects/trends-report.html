@@ -4,11 +4,156 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Trends Report — Roan Eriks</title>
-  <meta name="description" content="A strategic trend report on the future of loyalty and engagement in retail." />
+  <meta name="description" content="A strategic trend report on the future of loyalty and engagement in retail — five core trends, packaged as a creative booklet and a gamified presentation." />
 
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
   <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Trends Report page-specific styles ──────────────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    /* ── Five core trends ─────────────────────────────────
+       Each trend pairs its moodboard collage with the key-visual
+       sphere from the booklet, overlapping like the printed spread. */
+    .trends-header {
+      padding: var(--space-2xl) 0 var(--space-lg);
+      border-top: 0.5px solid var(--color-surface);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .trend {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+      padding: var(--space-2xl) 0;
+    }
+
+    .trend__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .trend__num {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .trend__name {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 40px);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--color-text);
+    }
+
+    .trend__body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 480px;
+    }
+
+    .trend__visual {
+      position: relative;
+      /* room for the sphere to overlap outside the collage */
+      padding-bottom: var(--space-xl);
+    }
+
+    .trend__collage {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .trend__ball {
+      position: absolute;
+      width: 36%;
+      height: auto;
+      border-radius: 50%;
+      bottom: 0;
+      left: -8%;
+    }
+
+    /* Alternate rows: visual left, sphere hangs off the right edge. */
+    .trend--reverse .trend__visual { order: -1; }
+    .trend--reverse .trend__ball { left: auto; right: -8%; }
+
+    /* ── Booklet CTA ─────────────────────────────────────── */
+    .booklet-link {
+      display: inline-flex;
+      align-items: baseline;
+      gap: var(--space-xs);
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      letter-spacing: var(--tracking-mono);
+      color: var(--color-accent);
+      border: 0.5px solid var(--color-accent);
+      padding: 14px 22px;
+      border-radius: 999px;
+      width: fit-content;
+      transition: background var(--dur-base, 0.3s) ease, color var(--dur-base, 0.3s) ease;
+    }
+
+    .booklet-link:hover {
+      background: var(--color-accent);
+      color: var(--color-base, #FAFAF8);
+    }
+
+    @media (max-width: 768px) {
+      .cs-split,
+      .trend {
+        grid-template-columns: 1fr;
+      }
+
+      .trend--reverse .trend__visual { order: 0; }
+
+      /* Keep the sphere inside the viewport on small screens. */
+      .trend__ball { width: 40%; left: 0; }
+      .trend--reverse .trend__ball { left: auto; right: 0; }
+    }
+  </style>
 </head>
 <body>
   <div id="site-nav"></div>
@@ -16,7 +161,7 @@
   <main>
     <!-- 1 — Hero block -->
     <header class="cs-hero container">
-      <p class="cs-hero__num">02</p>
+      <p class="cs-hero__num">05</p>
       <h1 class="cs-hero__title">Trends Report</h1>
       <p class="cs-hero__desc">Strategic foresight for retail</p>
 
@@ -40,95 +185,171 @@
       </dl>
     </header>
 
-    <!-- 2 — Full-bleed 16:9 hero image (placeholder) -->
-    <div class="cs-hero-media" role="img" aria-label="Trends Report hero image (placeholder)"></div>
-
     <div class="container">
-      <!-- 3 — Intro paragraph (placeholder copy) -->
-      <p class="cs-intro">
-        A strategic trend report on the future of loyalty and engagement in
-        retail. An environmental scan fed a Wall of Evidence; Futures Wheels
-        pushed each signal forward in time; and the result was distilled into
-        five core trends, packaged as a creative booklet built to be read, not
-        filed away.
-      </p>
 
-      <!-- 4 — Alternating content blocks -->
-      <div class="cs-blocks">
-
-        <!-- Block A — split -->
-        <section class="cs-block cs-block--split">
-          <div class="cs-block__text">
-            <p class="cs-block__label">01 — Scan</p>
-            <h2 class="cs-block__heading">Environmental scan</h2>
-            <p class="cs-block__body">
-              A wide sweep across culture, technology, and consumer behaviour —
-              gathering weak signals before they became obvious, and giving the
-              report a horizon wider than next quarter.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Environmental scan (placeholder)"></span>
-          </div>
-        </section>
-
-        <!-- Block B — full -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">02 — Method</p>
-            <h2 class="cs-block__heading">Wall of Evidence &amp; Futures Wheels</h2>
-            <p class="cs-block__body">
-              Signals were mapped onto a Wall of Evidence, then run through
-              Futures Wheels to trace their second- and third-order
-              consequences — turning scattered observations into structured
-              foresight.
-            </p>
-          </div>
-          <span class="cs-img" role="img" aria-label="Futures Wheels diagram (placeholder)"></span>
-        </section>
-
-        <!-- Block C — split reverse -->
-        <section class="cs-block cs-block--split-reverse">
-          <div class="cs-block__text">
-            <p class="cs-block__label">03 — Trends</p>
-            <h2 class="cs-block__heading">Five core trends</h2>
-            <p class="cs-block__body">
-              HCD Faces MCD · Create to Survive · Abstinent Self ·
-              Mood-Adaptive Living · Synthetic Confidence.
-            </p>
-            <p class="cs-block__body">
-              Each trend names a tension retail will have to design around — and
-              a direction it could move in response.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Five trends spread (placeholder)"></span>
-          </div>
-        </section>
-
-        <!-- Block D — full -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">04 — Artefact</p>
-            <h2 class="cs-block__heading">A creative booklet</h2>
-            <p class="cs-block__body">
-              The findings were packaged as a printed booklet — editorial,
-              tactile, and built to circulate, so the strategy lived as an
-              object people picked up rather than a slide they skipped.
-            </p>
-          </div>
-          <span class="cs-img" role="img" aria-label="Printed booklet (placeholder)"></span>
-        </section>
-
+      <!-- 2 — Research: how the trends were found -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — Trends research</p>
+          <p class="cs-split__question">
+            What will loyalty and engagement look like in the future of
+            retail?
+          </p>
+        </div>
+        <div class="cs-split__text">
+          <p class="cs-split__body">
+            For this group project in collaboration with IKEA's Xplore Studio
+            and Elisava, our team developed a strategic trend report
+            investigating the future of loyalty and engagement in retail. We
+            began with an environmental scan to find signals, which we grouped
+            into patterns on a Wall of Evidence. To validate these findings,
+            we took to the street and conducted interviews with several
+            business owners to see how these behaviors appear in real
+            contexts. We then used Futures Wheels to map the consequences of
+            these patterns and identify specific retail opportunities.
+          </p>
+        </div>
       </div>
+
+      <!-- 3 — Five core trends -->
+      <div class="trends-header">
+        <p class="cs-split__label">02 — Five core trends</p>
+        <p class="cs-split__question">
+          Each trend names a tension retail will have to design around.
+        </p>
+      </div>
+
+      <!-- Trend 1 -->
+      <article class="trend">
+        <div class="trend__text">
+          <p class="trend__num">Trend 01</p>
+          <h2 class="trend__name">HCD Faces MCD</h2>
+          <p class="trend__body">
+            Design is moving beyond being human-centered. Machines
+            increasingly communicate with each other rather than with the
+            people who made them — and spaces, both digital and physical, are
+            being reworked for machine precision and efficiency.
+          </p>
+        </div>
+        <div class="trend__visual">
+          <img class="trend__collage" src="/img/trends/hcd-faces-mcd.jpg"
+            alt="HCD Faces MCD — moodboard collage of automated warehouses, delivery robots and machine-first environments" />
+          <img class="trend__ball" src="/img/trends/hcd-faces-mcd-ball.jpg"
+            alt="HCD Faces MCD key visual sphere" />
+        </div>
+      </article>
+
+      <!-- Trend 2 -->
+      <article class="trend trend--reverse">
+        <div class="trend__text">
+          <p class="trend__num">Trend 02</p>
+          <h2 class="trend__name">Create to Survive</h2>
+          <p class="trend__body">
+            As climate crises intensify and generative tools draft ideas
+            before we even form them, creativity shifts from self-expression
+            to survival skill — the capacity to imagine and make for ourselves
+            again.
+          </p>
+        </div>
+        <div class="trend__visual">
+          <img class="trend__collage" src="/img/trends/create-to-survive.jpg"
+            alt="Create to Survive — moodboard collage of collective making, regenerative craft and creative resilience" />
+          <img class="trend__ball" src="/img/trends/create-to-survive-ball.jpg"
+            alt="Create to Survive key visual sphere" />
+        </div>
+      </article>
+
+      <!-- Trend 3 -->
+      <article class="trend">
+        <div class="trend__text">
+          <p class="trend__num">Trend 03</p>
+          <h2 class="trend__name">Abstinent Self</h2>
+          <p class="trend__body">
+            In a world that constantly offers and demands more, saying no
+            becomes a way to feel in control. Not moderation but elimination —
+            no alcohol, no dating apps, no internet — to regain clarity.
+          </p>
+        </div>
+        <div class="trend__visual">
+          <img class="trend__collage" src="/img/trends/abstinent-self.jpg"
+            alt="Abstinent Self — moodboard collage of restraint, digital detox and deliberate emptiness" />
+          <img class="trend__ball" src="/img/trends/abstinent-self-ball.jpg"
+            alt="Abstinent Self key visual sphere" />
+        </div>
+      </article>
+
+      <!-- Trend 4 -->
+      <article class="trend trend--reverse">
+        <div class="trend__text">
+          <p class="trend__num">Trend 04</p>
+          <h2 class="trend__name">Mood-Adaptive Living</h2>
+          <p class="trend__body">
+            Loneliness is rising while hyper-personalization trains us to
+            expect environments that adapt to us. Spaces, objects and systems
+            now sense our emotional state and shift in real time to support
+            it.
+          </p>
+        </div>
+        <div class="trend__visual">
+          <img class="trend__collage" src="/img/trends/mood-adaptive-living.jpg"
+            alt="Mood-Adaptive Living — moodboard collage of responsive interiors and emotionally intelligent objects" />
+          <img class="trend__ball" src="/img/trends/mood-adaptive-living-ball.jpg"
+            alt="Mood-Adaptive Living key visual sphere" />
+        </div>
+      </article>
+
+      <!-- Trend 5 -->
+      <article class="trend">
+        <div class="trend__text">
+          <p class="trend__num">Trend 05</p>
+          <h2 class="trend__name">Synthetic Confidence</h2>
+          <p class="trend__body">
+            AI thinks with us 24/7 — finishing sentences, shaping ideas,
+            smoothing confusion. The result is confidence without
+            comprehension: a borrowed certainty that makes us seem to know
+            more than we do.
+          </p>
+        </div>
+        <div class="trend__visual">
+          <img class="trend__collage" src="/img/trends/synthetic-confidence.jpg"
+            alt="Synthetic Confidence — moodboard collage of AI assistance, polished surfaces and borrowed certainty" />
+          <img class="trend__ball" src="/img/trends/synthetic-confidence-ball.jpg"
+            alt="Synthetic Confidence key visual sphere" />
+        </div>
+      </article>
+
+      <!-- 4 — Creative output -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">03 — Creative output</p>
+          <p class="cs-split__question">
+            Research only matters if decision-makers engage with it.
+          </p>
+        </div>
+        <div class="cs-split__text">
+          <p class="cs-split__body">
+            This process led to these five core trends. We packaged the
+            research into a creative booklet and a gamified presentation. The
+            presentation, modeled as a "Multiverse Game," required
+            decision-makers to test strategic choices against our findings to
+            ensure business survival.
+          </p>
+          <a class="booklet-link"
+             href="/Content/Ikea%20trends%20report/Booklet_Loyalty_And_Engagement_2025.pdf"
+             target="_blank" rel="noopener">
+            Read the full booklet <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
     </div>
 
     <!-- 5 — Next project strip -->
-    <a class="cs-next" href="/projects/dutch-climate">
+    <a class="cs-next" href="/projects/ikea-hej.html">
       <div class="cs-next__inner container">
         <div>
           <p class="cs-next__label">Next project</p>
-          <p class="cs-next__title">Dutch Climate Systems</p>
+          <p class="cs-next__title">IKEA Hej</p>
         </div>
         <span class="cs-next__arrow" aria-hidden="true">→</span>
       </div>

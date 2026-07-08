@@ -8,10 +8,10 @@
   'use strict';
 
   var links = [
-    { label: 'Projects',   href: '/projects' },
-    { label: 'Playground', href: '/playground' },
-    { label: 'About me',   href: '/about' },
-    { label: "Let's talk", href: '/contact' }
+    { label: 'Projects',   href: '/projects.html' },
+    { label: 'Playground', href: '/playground.html' },
+    { label: 'About me',   href: '/about.html' },
+    { label: "Let's talk", href: '/contact.html' }
   ];
 
   // Normalise the current path: strip trailing ".html" and trailing slash so
@@ -19,7 +19,8 @@
   var path = location.pathname.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
 
   var linksHTML = links.map(function (link) {
-    var active = path === link.href || path.indexOf(link.href + '/') === 0;
+    var base = link.href.replace(/\.html$/, '');
+    var active = path === base || path.indexOf(base + '/') === 0;
     return '<a class="nav__link' + (active ? ' is-active' : '') + '" href="' +
       link.href + '"' + (active ? ' aria-current="page"' : '') + '>' +
       link.label + '</a>';
@@ -28,7 +29,7 @@
   var navHTML =
     '<header class="nav" data-nav>' +
       '<nav class="nav__pill" aria-label="Primary">' +
-        '<a class="nav__logo" href="/" aria-label="Roan Eriks — home">RE</a>' +
+        '<a class="nav__logo" href="/" aria-label="Roan Eriks — home">Roan Eriks</a>' +
         '<button class="nav__toggle" type="button" aria-label="Toggle menu" ' +
           'aria-expanded="false" aria-controls="nav-links">' +
           '<span></span><span></span>' +

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kicktip — Roan Eriks</title>
+  <meta name="description" content="Kicktip — a World Cup 2026 prediction game vibe-coded for five friends and a €50 pot." />
+
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Kicktip page-specific styles ────────────────────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    /* Three phone screenshots at their native portrait ratio. */
+    .cs-phones {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-phones img {
+      width: 100%;
+      aspect-ratio: 390 / 844;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .cs-phones figcaption {
+      margin-top: var(--space-xs);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .cs-split { grid-template-columns: 1fr; }
+      .cs-phones { gap: 6px; }
+      .cs-phones figcaption { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <!-- 1 — Hero block. Playground piece: no project number, lighter meta. -->
+    <header class="cs-hero container">
+      <p class="cs-hero__num">Playground</p>
+      <h1 class="cs-hero__title">Kicktip</h1>
+      <p class="cs-hero__desc">A World Cup prediction game for five friends and a €50 pot</p>
+
+      <dl class="cs-meta">
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Role</dt>
+          <dd class="cs-meta__value">Designer & vibe-coder</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Context</dt>
+          <dd class="cs-meta__value">The group chat</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Year</dt>
+          <dd class="cs-meta__value">2026</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Type</dt>
+          <dd class="cs-meta__value">Web app, Side project</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="container">
+
+      <!-- 2 — Why it exists -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — Why</p>
+          <p class="cs-split__question">
+            Five friends, one group chat, and a growing pile of World Cup score
+            predictions that nobody was keeping track of.
+          </p>
+        </div>
+        <div class="cs-split__text">
+          <p class="cs-split__body">
+            When the knockout rounds started, our WhatsApp group turned into a
+            prediction contest — €10 each, winner takes the pot. The predictions
+            were scattered across the chat and the scorekeeping was on the honour
+            system. So over one weekend I vibe-coded Kicktip: a small web app that
+            remembers every pick, scores it automatically, and settles the
+            arguments for us.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3 — The app, three tabs -->
+      <div class="cs-phones">
+        <figure>
+          <img src="/img/kicktip/standings.png" alt="Kicktip — standings tab with the live leaderboard and prize pot" />
+          <figcaption>Standings — who's winning the pot</figcaption>
+        </figure>
+        <figure>
+          <img src="/img/kicktip/matches.png" alt="Kicktip — matches tab showing results and everyone's predictions per game" />
+          <figcaption>Matches — everyone's picks, revealed at kickoff</figcaption>
+        </figure>
+        <figure>
+          <img src="/img/kicktip/predict.png" alt="Kicktip — predict tab where each player enters their scores" />
+          <figcaption>Predict — pick your name, call your scores</figcaption>
+        </figure>
+      </div>
+
+      <!-- 4 — How it works -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — How it works</p>
+          <p class="cs-split__body">
+            Scores and fixtures sync live from FIFA's public data, so results and
+            new knockout games appear on their own. Exact score earns 4 points,
+            right goal difference 3, right winner 2 — and predictions lock at
+            kickoff, so no quiet edits at half-time.
+          </p>
+        </div>
+        <div class="cs-split__text">
+          <p class="cs-split__body">
+            Built with Next.js and Claude Code in a weekend, styled like a
+            stadium scoreboard rather than a spreadsheet. The real feature isn't
+            technical: it turned a messy chat thread into a running joke with a
+            leaderboard.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 5 — Back strip -->
+    <a class="cs-next" href="/playground.html">
+      <div class="cs-next__inner container">
+        <div>
+          <p class="cs-next__label">Back to</p>
+          <p class="cs-next__title">Playground</p>
+        </div>
+        <span class="cs-next__arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/motion.js"></script>
+</body>
+</html>

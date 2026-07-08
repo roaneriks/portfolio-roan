@@ -154,6 +154,7 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .hero__inner {
@@ -163,6 +164,7 @@ body {
   gap: var(--space-2xl);
   width: 100%;
   padding-block: var(--space-3xl) var(--space-2xl);
+  margin-top: var(--space-2xl);   /* nudge hero content below true centre */
 }
 
 .hero__title {
@@ -177,7 +179,8 @@ body {
 
 /* Top-right catchphrase + contact block. */
 .hero__aside {
-  max-width: 28ch;
+  max-width: 38ch;
+  margin-right: var(--space-3xl);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -189,6 +192,34 @@ body {
   line-height: var(--leading-snug);
 }
 
+/* Contact rows: mono label left, link right, hairline dividers between rows. */
+.hero__contact {
+  list-style: none;
+  margin-top: var(--space-sm);
+  padding: 0;
+}
+
+.hero__contact li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding-block: 10px;
+  border-top: 0.5px solid var(--color-surface-dark, #DCDCD8);
+}
+
+.hero__contact li:last-child {
+  border-bottom: 0.5px solid var(--color-surface-dark, #DCDCD8);
+}
+
+.hero__contact-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
 .hero__email {
   font-family: var(--font-mono);
   font-size: var(--text-mono);
@@ -197,6 +228,22 @@ body {
 }
 
 .hero__email:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.hero__scroll-cue {
+  position: absolute;
+  left: var(--space-lg, 32px);
+  bottom: var(--space-lg, 32px);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-text-secondary);
+  animation: hero-scroll-cue-bounce 2s ease-in-out infinite;
+}
+
+@keyframes hero-scroll-cue-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
 
 /* =========================================================================
    FEATURED WORK  — checkerboard, one 100vh panel per project.
@@ -243,6 +290,15 @@ body {
 .panel__title a { transition: color 0.2s ease; }
 .panel__title a:hover { color: var(--color-accent); }
 
+.panel__body {
+  margin-top: var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  line-height: 1.65;
+  max-width: 480px;
+}
+
 .panel__desc {
   margin-top: var(--space-sm);
   max-width: 38ch;
@@ -273,6 +329,18 @@ body {
 }
 
 .panel__media-link:hover .panel__media-inner { transform: scale(1.03); }
+
+img.panel__media-inner {
+  object-fit: cover;
+  display: block;
+}
+
+/* Product renders shown in full — no crop. White fill blends with the
+   renders' own white backgrounds. */
+img.panel__media-inner--contain {
+  object-fit: contain;
+  background: #fff;
+}
 
 /* Reverse panels: photo left, text right. */
 .panel--reverse .panel__text  { order: 2; }
@@ -623,6 +691,15 @@ body.is-home {
   background: var(--color-surface);   /* placeholder fill (#E9E9E6) */
 }
 
+/* Keep the top of the artwork in frame (e.g. banner text). */
+.card__img--top { object-position: center top; }
+
+/* Product renders shown in full — no crop. */
+.card__img--contain {
+  object-fit: contain;
+  background: #fff;
+}
+
 .card__num {
   position: absolute;
   top: var(--space-md);
@@ -875,6 +952,29 @@ body.is-home {
 .masonry__media--tall   { aspect-ratio: 3 / 4; }
 .masonry__media--wide   { aspect-ratio: 4 / 3; }
 .masonry__media--square { aspect-ratio: 1 / 1; }
+.masonry__media--phone  { aspect-ratio: 9 / 16; }   /* app screenshots */
+
+/* Tiles with a real visual: the link wraps the whole card, the image fills
+   the media box and gets the same slow hover scale as homepage panels. */
+.masonry__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.masonry__media { overflow: hidden; }
+
+.masonry__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform var(--dur-slow) var(--ease-soft);
+}
+
+.masonry__link:hover .masonry__media img { transform: scale(1.03); }
+.masonry__link:hover .masonry__title { color: var(--color-accent); }
 
 .masonry__title {
   font-family: var(--font-display);

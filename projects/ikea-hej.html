@@ -4,11 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IKEA Hej — Roan Eriks</title>
-  <meta name="description" content="IKEA Hej — a social mode for the IKEA app connecting Gen Z shoppers by mood and shared interests." />
+  <meta name="description" content="IKEA Hej — a social facilitator for the IKEA store connecting Gen Z through shared living interests." />
 
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
   <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── IKEA Hej page-specific styles ───────────────────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .cs-split__media {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .cs-split__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cs-split__media--single img {
+      aspect-ratio: 16 / 11;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .cs-split__media--double {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+      align-items: start;
+    }
+
+    .cs-split__media--double img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+    }
+
+    .cs-fullbleed-image {
+      width: 100%;
+      margin: var(--space-2xl) 0 0;
+      overflow: hidden;
+    }
+
+    /* Full page width always; height follows the image's own ratio (no crop). */
+    .cs-fullbleed-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .cs-split {
+        grid-template-columns: 1fr;
+      }
+
+      .cs-split__media--double {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div id="site-nav"></div>
@@ -23,7 +116,7 @@
       <dl class="cs-meta">
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Role</dt>
-          <dd class="cs-meta__value">Business Designer</dd>
+          <dd class="cs-meta__value">Design Consultant</dd>
         </div>
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Context</dt>
@@ -35,108 +128,66 @@
         </div>
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Type</dt>
-          <dd class="cs-meta__value">Strategy, Service Design</dd>
+          <dd class="cs-meta__value">Strategy, Concept Design</dd>
         </div>
       </dl>
     </header>
 
-    <!-- 2 — Full-bleed 16:9 hero image -->
-    <div class="cs-hero-media">
-      <img src="/img/ikea-hej-hero.jpg" alt="IKEA Hej concept" />
-    </div>
-
     <div class="container">
-      <!-- 3 — Intro paragraph -->
-      <p class="cs-intro">
-        IKEA Hej is a facilitator that helps people make connections by
-        capitalising on the IKEA store experience. Hej brings people together
-        over the personal topic of ways of living to create a meaningful IKEA
-        journey and perhaps a deeper connection or friendship. 86% of Gen Z
-        surveyed were interested in using it.
-      </p>
 
-      <!-- 4 — Content blocks -->
-      <div class="cs-blocks">
-
-        <!-- Block A — split: text left, image right -->
-        <section class="cs-block cs-block--split">
-          <div class="cs-block__text">
-            <p class="cs-block__label">01 — Challenge</p>
-            <h2 class="cs-block__heading">Redefining loyalty for Gen Z</h2>
-            <p class="cs-block__body">
-              To redefine loyalty and engagement for IKEA, specifically for
-              Gen Z, by using IKEA to solve the problem of lack of connection,
-              loneliness, and the need for mediated connection.
-            </p>
-            <p class="cs-block__body">
-              How can IKEA transform loyalty and engagement for Gen Z, turning
-              the store into a space for real connection, belonging, and
-              cultural lore?
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Research wall"></span>
-          </div>
-        </section>
-
-        <!-- Block B — full: text above, full-width image below -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">02 — Key insight</p>
-            <h2 class="cs-block__heading">Human connection is fading</h2>
-            <p class="cs-block__body">
-              60% of Gen Z do not feel confident starting a conversation
-              without a prior digital connection or specific reason to engage
-              — so environments are stepping in to care for us.
-            </p>
-            <blockquote class="cs-block__quote">
-              "It's hard to make good friends at this age; I don't know where
-              to find people to meet." — Gen Z interviewee
-            </blockquote>
-          </div>
-          <span class="cs-img" role="img" aria-label="Five trends diagram"></span>
-        </section>
-
-        <!-- Block C — split reverse: image left, text right -->
-        <section class="cs-block cs-block--split-reverse">
-          <div class="cs-block__text">
-            <p class="cs-block__label">03 — Concept</p>
-            <h2 class="cs-block__heading">The IKEA Hej concept</h2>
-            <p class="cs-block__body">
-              Facilitates low-friction socialising in physical spaces, lowering
-              social anxiety, respecting emotional timing, and connecting people
-              through the IKEA app's existing tools.
-            </p>
-            <p class="cs-block__body">
-              For IKEA: increased store footfall, a humanised brand through
-              human stories, behavioural data on how people live, and lasting
-              customer loyalty.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="IKEA Hej concept screens"></span>
-          </div>
-        </section>
-
-        <!-- Block D — full: text above, full-width image below -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">04 — Delivery</p>
-            <h2 class="cs-block__heading">The Multiverse Game</h2>
-            <p class="cs-block__body">
-              The concept was presented as a Multiverse Game — an interactive
-              format that let stakeholders step into the future scenario rather
-              than read a deck about it.
-            </p>
-          </div>
-          <span class="cs-img" role="img" aria-label="Multiverse Game presentation"></span>
-        </section>
-
+      <!-- 3 — Challenge: text left, board game photo right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — Challenge</p>
+          <p class="cs-split__question">
+            How can IKEA transform loyalty and engagement for Gen Z, turning the
+            store into a space for real connection, belonging, and cultural lore?
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/Content/IKEA/GenZ playing board game.png"
+            alt="Gen Z playing a board game at an IKEA table"
+          />
+        </div>
       </div>
+
+      <!-- 4 — Solution: text left, app + poster right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — Solution</p>
+          <p class="cs-split__body">
+            IKEA Hej is a facilitator that helps people make connections by
+            capitalising on the IKEA store experience. Hej brings people together
+            over the personal topic of ways of living to create a meaningful IKEA
+            journey and perhaps a deeper connection or friendship. 86% of Gen Z
+            surveyed were interested in using it.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--double">
+          <img
+            src="/Content/IKEA/Ikea Hej app.png"
+            alt="IKEA Hej app screens"
+          />
+          <img
+            src="/Content/IKEA/Ikea Hej poster.png"
+            alt="IKEA Hej poster"
+          />
+        </div>
+      </div>
+
     </div>
 
-    <!-- 5 — Next project strip -->
-    <a class="cs-next" href="/projects/moco-scratch">
+    <!-- 5 — Full-width closing image (edge to edge) -->
+    <div class="cs-fullbleed-image">
+      <img
+        src="/Content/IKEA/To create a better everyday life for the many people of tomorrow.png"
+        alt="To create a better everyday life for the many people of tomorrow"
+      />
+    </div>
+
+    <!-- 6 — Next project strip -->
+    <a class="cs-next" href="/projects/moco-scratch.html">
       <div class="cs-next__inner container">
         <div>
           <p class="cs-next__label">Next project</p>

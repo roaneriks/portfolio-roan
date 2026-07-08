@@ -4,11 +4,96 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Japandi Table — Roan Eriks</title>
-  <meta name="description" content="A screwless self-assembly table set using a cross lap joint — seven planks, no screws or glue." />
+  <meta name="description" content="A screwless, self-assembly table set designed for MI Studio — graduation project, 2023." />
 
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
   <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Japandi Table page-specific styles ──────────────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .cs-split__media {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .cs-split__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cs-split__media--single img {
+      aspect-ratio: 16 / 11;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    /* Schematic drawing tucked under the 03 body text. */
+    .cs-split__text-img {
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      display: block;
+      margin-top: var(--space-sm);
+    }
+
+    /* Closing photo: full page width, natural ratio. */
+    .cs-fullbleed-image {
+      width: 100%;
+      margin: var(--space-2xl) 0 0;
+      overflow: hidden;
+    }
+
+    .cs-fullbleed-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .cs-split {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div id="site-nav"></div>
@@ -27,7 +112,7 @@
         </div>
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Context</dt>
-          <dd class="cs-meta__value">MI Studio, Amsterdam</dd>
+          <dd class="cs-meta__value">Graduation — MI Studio, Amsterdam</dd>
         </div>
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Year</dt>
@@ -40,86 +125,88 @@
       </dl>
     </header>
 
-    <!-- 2 — Full-bleed 16:9 hero image (placeholder) -->
-    <div class="cs-hero-media" role="img" aria-label="Japandi Table hero image (placeholder)"></div>
-
     <div class="container">
-      <!-- 3 — Intro paragraph (placeholder copy) -->
-      <p class="cs-intro">
-        A screwless self-assembly table set built around a single idea: a cross
-        lap joint. Seven planks, no screws and no glue — held together by the
-        geometry of the joinery alone. The Japandi language of light oak,
-        rounded forms, and quiet balance carries the rest.
-      </p>
 
-      <!-- 4 — Alternating content blocks -->
-      <div class="cs-blocks">
-
-        <!-- Block A — split -->
-        <section class="cs-block cs-block--split">
-          <div class="cs-block__text">
-            <p class="cs-block__label">01 — Principle</p>
-            <h2 class="cs-block__heading">The cross lap joint</h2>
-            <p class="cs-block__body">
-              One joint does all the work. Two planks notch into each other so
-              the structure locks under its own load — the more weight it
-              carries, the more stable it becomes.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Cross lap joint detail (placeholder)"></span>
-          </div>
-        </section>
-
-        <!-- Block B — full -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">02 — System</p>
-            <h2 class="cs-block__heading">Seven planks, no screws</h2>
-            <p class="cs-block__body">
-              The whole set resolves to seven planks. No fasteners, no glue,
-              nothing to strip or loosen — assembly is a matter of seating each
-              piece in the right order.
-            </p>
-          </div>
-          <span class="cs-img" role="img" aria-label="Exploded plank layout (placeholder)"></span>
-        </section>
-
-        <!-- Block C — split reverse -->
-        <section class="cs-block cs-block--split-reverse">
-          <div class="cs-block__text">
-            <p class="cs-block__label">03 — Language</p>
-            <h2 class="cs-block__heading">A Japandi aesthetic</h2>
-            <p class="cs-block__body">
-              Light oak, softened edges, and honest proportions. The form leans
-              on the Japandi blend of Japanese restraint and Scandinavian
-              warmth — harmony and balance over ornament.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Finished table in oak (placeholder)"></span>
-          </div>
-        </section>
-
-        <!-- Block D — full -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">04 — Handover</p>
-            <h2 class="cs-block__heading">A user manual</h2>
-            <p class="cs-block__body">
-              The set ships with a user manual that treats assembly as part of
-              the product — a small, considered ritual rather than a chore to
-              get through.
-            </p>
-          </div>
-          <span class="cs-img" role="img" aria-label="User manual spread (placeholder)"></span>
-        </section>
-
+      <!-- 2 — Graduation project: text left, table render right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — Graduation project</p>
+          <p class="cs-split__body">
+            Designed for my graduation project at MI Studio, an
+            Amsterdam-based furniture studio, this wooden table prioritizes
+            user-friendly self-assembly with a key focus on innovative part
+            connections.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/img/japandi/japandi-table.png"
+            alt="Render of the Japandi table set with two benches in light oak"
+          />
+        </div>
       </div>
+
+      <!-- 3 — Design: text left, zoomed render right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — Design</p>
+          <p class="cs-split__body">
+            The design incorporates pure and honest connections, fitting the
+            Japandi style. Simplicity brings tranquility to the design, and
+            the possibility of repetition creates a sense of harmony and
+            balance.
+          </p>
+          <p class="cs-split__body">
+            Rounded shapes make the design more organic, bringing a softer
+            and more natural character. Light oak wood was chosen for its
+            natural look and texture, matching the Japandi style.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/img/japandi/japandi-table-zoomed.png"
+            alt="Close-up render of the tabletop showing the rounded edges and cross lap joints"
+          />
+        </div>
+      </div>
+
+      <!-- 4 — Construction: text left, schematic + manual right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">03 — Construction</p>
+          <p class="cs-split__body">
+            The connection method is optimal for strength without the use of
+            screws or glue, ensuring a durable table. Using cross lap joint,
+            seven planks are combined and strategically placed. This
+            technique can be repeated in various sizes and the product comes
+            with a user manual.
+          </p>
+          <img
+            class="cs-split__text-img"
+            src="/img/japandi/schematic.svg"
+            alt="Exploded schematic drawing of the table's parts A to D"
+          />
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/img/japandi/manual.jpg"
+            alt="The printed self-assembly user manual for the table"
+          />
+        </div>
+      </div>
+
     </div>
 
-    <!-- 5 — Next project strip (loops back to the first) -->
-    <a class="cs-next" href="/projects/ikea-hej">
+    <!-- 5 — Full-width closing image: the real oak prototype -->
+    <div class="cs-fullbleed-image">
+      <img
+        src="/img/japandi/prototype.jpg"
+        alt="The built oak prototype of the Japandi table with stools"
+      />
+    </div>
+
+    <!-- 6 — Next project strip -->
+    <a class="cs-next" href="/projects/ikea-hej.html">
       <div class="cs-next__inner container">
         <div>
           <p class="cs-next__label">Next project</p>

@@ -9,6 +9,110 @@
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
   <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Dutch Climate Systems page-specific styles ──────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .cs-split__media {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .cs-split__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cs-split__media--single img {
+      aspect-ratio: 16 / 11;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    /* Two wide images stacked vertically, each shown at its own ratio
+       (no crop) — both source images are landscape, so side-by-side
+       columns would cut them off. */
+    .cs-split__media--stacked {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .cs-split__media--stacked img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .cs-fullbleed-image {
+      width: 100%;
+      margin: var(--space-2xl) 0 0;
+      overflow: hidden;
+    }
+
+    /* Closing render: centred at ~70% of the page width instead of full
+       bleed, so the big product shot doesn't overwhelm the page. */
+    .cs-fullbleed-image img {
+      width: 70%;
+      max-width: 980px;
+      height: auto;
+      display: block;
+      margin-inline: auto;
+    }
+
+    /* Product render tucked under the 03 body text. */
+    .cs-split__text-img {
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      display: block;
+      margin-top: var(--space-sm);
+    }
+
+    @media (max-width: 768px) {
+      .cs-split {
+        grid-template-columns: 1fr;
+      }
+
+    }
+  </style>
 </head>
 <body>
   <div id="site-nav"></div>
@@ -40,87 +144,98 @@
       </dl>
     </header>
 
-    <!-- 2 — Full-bleed 16:9 hero image (placeholder) -->
-    <div class="cs-hero-media" role="img" aria-label="Dutch Climate Systems hero image (placeholder)"></div>
-
     <div class="container">
-      <!-- 3 — Intro paragraph (placeholder copy) -->
-      <p class="cs-intro">
-        At Dutch Climate Systems I ran installations end to end — surveying
-        sites, producing technical drawings, ordering supply, and keeping
-        stakeholders aligned from first visit to sign-off. Alongside delivery I
-        worked on R&amp;D and communication materials for the company's flagship
-        product, the ICECUBE.
-      </p>
 
-      <!-- 4 — Alternating content blocks -->
-      <div class="cs-blocks">
-
-        <!-- Block A — split -->
-        <section class="cs-block cs-block--split">
-          <div class="cs-block__text">
-            <p class="cs-block__label">01 — Delivery</p>
-            <h2 class="cs-block__heading">End-to-end installations</h2>
-            <p class="cs-block__body">
-              Surveying, technical drawings, supply ordering, and stakeholder
-              communication — owning the thread that runs from a site visit to a
-              working, signed-off installation.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Installation on site (placeholder)"></span>
-          </div>
-        </section>
-
-        <!-- Block B — full -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">02 — Product</p>
-            <h2 class="cs-block__heading">ICECUBE</h2>
-            <p class="cs-block__body">
-              The flagship product: dew-point cooling that uses 80% less energy
-              and no Freon. A genuinely different approach to climate control —
-              and the centre of gravity for the R&amp;D and communication work.
-            </p>
-          </div>
-          <span class="cs-img" role="img" aria-label="ICECUBE product (placeholder)"></span>
-        </section>
-
-        <!-- Block C — split reverse -->
-        <section class="cs-block cs-block--split-reverse">
-          <div class="cs-block__text">
-            <p class="cs-block__label">03 — R&amp;D</p>
-            <h2 class="cs-block__heading">Research &amp; communication</h2>
-            <p class="cs-block__body">
-              Beyond delivery, I contributed to product R&amp;D and built
-              communication materials that translated a technical system into
-              something a non-engineer could understand and buy into.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Communication materials (placeholder)"></span>
-          </div>
-        </section>
-
-        <!-- Block D — full -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">04 — School project</p>
-            <h2 class="cs-block__heading">ICECUBE for the bedroom</h2>
-            <p class="cs-block__body">
-              A self-directed project adapting the ICECUBE for residential
-              bedroom use — rethinking scale, noise, and form to bring
-              industrial cooling into a domestic, human-sized context.
-            </p>
-          </div>
-          <span class="cs-img" role="img" aria-label="Residential concept (placeholder)"></span>
-        </section>
-
+      <!-- 2 — School project: text left, bedroom concept + refined unit right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — School project</p>
+          <p class="cs-split__body">
+            In 2022, I collaborated with DCS on a school project to adapt their
+            ICECUBE cooling system for residential use. The goal was to create
+            a sustainable, consumer-friendly solution tailored for the home
+            market. The resulting design focused on bedroom use, prioritizing
+            comfort, quiet operation, and a soft, unobtrusive aesthetic that
+            blends into living spaces.
+          </p>
+          <p class="cs-split__body">
+            After graduating, I continued to work on this project. Refining its
+            usability and functionality to further align with DCS's mission of
+            "Cooling the Planet."
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--stacked">
+          <img
+            src="/img/dcs/bedroom-concept.jpg"
+            alt="Render of the residential ICECUBE concept mounted above a bed"
+          />
+        </div>
       </div>
+
+      <!-- 3 — Project management: text left, installation photo + drawing right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — Project management</p>
+          <p class="cs-split__body">
+            During my job, I dedicated my time to overseeing and executing
+            installations from start to finish. I was responsible for managing
+            the entire process, ensuring every detail was accounted for and
+            that the project runs smoothly. My role involved a variety of
+            tasks, including surveying of new locations, creating technical
+            drawings, ordering supplies, communicating with team members and
+            stakeholders, and handling preparations. Once everything is in
+            place, I oversaw and actively worked on the installation itself.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--stacked">
+          <img
+            src="/img/dcs/installation.jpg"
+            alt="ICECUBE climate system installed against a ceiling, with ducting and piping"
+          />
+          <img
+            src="/img/dcs/technical-drawing.jpg"
+            alt="Technical floor plan drawing of a climate system installation"
+          />
+        </div>
+      </div>
+
+      <!-- 4 — Product innovation: text left, office airflow render right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">03 — Product innovation</p>
+          <p class="cs-split__body">
+            Besides managing the installation I was also involved in the
+            R&amp;D department, where I collaborate with the team to design and
+            develop future concepts. I was also involved in the creation of
+            communication materials such as brochures, presentations, and
+            social media posts.
+          </p>
+          <img
+            class="cs-split__text-img"
+            src="/img/dcs/icecube-unit.png"
+            alt="Render of the ICECUBE cooling unit concept"
+          />
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/img/dcs/office-airflow.jpg"
+            alt="Render of an office space showing the ICECUBE distributing cool air from the ceiling"
+          />
+        </div>
+      </div>
+
     </div>
 
-    <!-- 5 — Next project strip -->
-    <a class="cs-next" href="/projects/japandi-table">
+    <!-- 5 — Full-width closing image (edge to edge) -->
+    <div class="cs-fullbleed-image">
+      <img
+        src="/img/dcs/icecube-render.png"
+        alt="Render of the modular ICECUBE dew-point cooling unit"
+      />
+    </div>
+
+    <!-- 6 — Next project strip -->
+    <a class="cs-next" href="/projects/japandi-table.html">
       <div class="cs-next__inner container">
         <div>
           <p class="cs-next__label">Next project</p>

@@ -44,7 +44,15 @@
     var currentIdx  = 0;
     var isAnimating = false;
 
+    // On the landing panel, peek 100px of the next section into view as a
+    // scroll hint. Any other panel sits flush at its normal offset.
+    var PEEK = 100;
+
     if (!container || !total) return;
+
+    function yFor(idx) {
+      return idx === 0 ? -PEEK : -(idx * window.innerHeight);
+    }
 
     function goTo(idx) {
       idx = Math.max(0, Math.min(total - 1, idx));
@@ -56,12 +64,15 @@
       setNavScrolled(idx > 0 ? SCROLL_THRESHOLD + 1 : 0);
 
       gsap.to(container, {
-        y: -(idx * window.innerHeight),
+        y: yFor(idx),
         duration: 1.2,
         ease: 'power3.inOut',
         onComplete: function () { isAnimating = false; }
       });
     }
+
+    // Apply the initial peek offset without animating on page load.
+    gsap.set(container, { y: yFor(currentIdx) });
 
     // ---- Wheel (mouse + trackpad) ----
     window.addEventListener('wheel', function (e) {
@@ -85,7 +96,7 @@
 
     // ---- Resize: recalculate y so panels stay aligned ----
     window.addEventListener('resize', function () {
-      gsap.set(container, { y: -(currentIdx * window.innerHeight) });
+      gsap.set(container, { y: yFor(currentIdx) });
     });
 
     return; // skip Lenis on homepage

@@ -9,6 +9,104 @@
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
   <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Moco Scratch page-specific styles ───────────────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .cs-split__media {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .cs-split__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cs-split__media--single img {
+      height: 550px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    /* Three phone-screenshot frames shown at their native portrait ratio. */
+    .cs-split__media--triple {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
+      align-items: start;
+    }
+
+    .cs-split__media--triple img {
+      width: 100%;
+      aspect-ratio: 708 / 1534;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cs-fullbleed-image {
+      width: 100%;
+      margin: var(--space-2xl) 0 0;
+      overflow: hidden;
+      height: 730px;
+    }
+
+    .cs-fullbleed-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .cs-split {
+        grid-template-columns: 1fr;
+      }
+
+      .cs-split__media--triple {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div id="site-nav"></div>
@@ -16,7 +114,7 @@
   <main>
     <!-- 1 — Hero block -->
     <header class="cs-hero container">
-      <p class="cs-hero__num">05</p>
+      <p class="cs-hero__num">02</p>
       <h1 class="cs-hero__title">Moco Scratch</h1>
       <p class="cs-hero__desc">Future of museum experience</p>
 
@@ -40,94 +138,72 @@
       </dl>
     </header>
 
-    <!-- 2 — Full-bleed hero image -->
-    <div class="cs-hero-media">
-      <img src="/img/moco-scratch-hero.png" alt="Moco Scratch concept" />
-    </div>
-
     <div class="container">
-      <!-- 3 — Intro paragraph -->
-      <p class="cs-intro">
-        Moco Scratch is a multi-layered interactive experience that provides
-        visitors with information and connection to the art and artists while
-        delivering an engaging and fun journey. Visitors take a physical scratch
-        card through the museum and at the end receive additional insights and
-        shareable assets digitally.
-      </p>
 
-      <!-- 4 — Content blocks -->
-      <div class="cs-blocks">
-
-        <!-- Block A — split: text left, image right -->
-        <section class="cs-block cs-block--split">
-          <div class="cs-block__text">
-            <p class="cs-block__label">01 — Challenge</p>
-            <h2 class="cs-block__heading">Making art accessible to everyone</h2>
-            <p class="cs-block__body">
-              Improving the in-person experience of the museum by providing more
-              context and insight on the art in a fun, engaging and immersive
-              way, while keeping in mind that the main purpose of Moco is to
-              make art accessible to everyone.
-            </p>
-            <p class="cs-block__body">
-              How might we improve the in-person experience through the different
-              touchpoints within the museum to uncover its full potential?
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <img class="cs-img" src="/img/moco-scratch-detail.png" alt="Moco Scratch detail" />
-          </div>
-        </section>
-
-        <!-- Block B — full: text above, full-width image below -->
-        <section class="cs-block cs-block--full">
-          <div class="cs-block__text">
-            <p class="cs-block__label">02 — Key insight</p>
-            <h2 class="cs-block__heading">Context unlocks the art</h2>
-            <p class="cs-block__body">
-              84% of first-time museum visitors with little to no contemporary
-              art experience want more explanation or context about the art.
-            </p>
-            <blockquote class="cs-block__quote">
-              "Modern and contemporary art is really hard to get without context,
-              story, and meaning giving." — SFMOMA Curators Circle associate
-            </blockquote>
-          </div>
-          <span class="cs-img" role="img" aria-label="Research insights"></span>
-        </section>
-
-        <!-- Block C — split reverse: image left, text right -->
-        <section class="cs-block cs-block--split-reverse">
-          <div class="cs-block__text">
-            <p class="cs-block__label">03 — Concept</p>
-            <h2 class="cs-block__heading">Phygital scratch card</h2>
-            <p class="cs-block__body">
-              For visitors: an engaging, interactive experience that deepens and
-              clarifies the art, creates a shareable moment, and helps visualise
-              the full scope of the museum.
-            </p>
-            <p class="cs-block__body">
-              For Moco: a phygital layer that makes the visit memorable and
-              immersive, boosts satisfaction and return rates, captures artwork
-              preference insights, builds a CRM through optional email
-              collection, and turns visitors into promoters through personalised
-              shareable Instagram Stories.
-            </p>
-          </div>
-          <div class="cs-block__media">
-            <span class="cs-img" role="img" aria-label="Moco Scratch experience flow"></span>
-          </div>
-        </section>
-
+      <!-- 3 — Challenge: text left, detail photo right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — Challenge</p>
+          <p class="cs-split__question">
+            How might we improve the in-person experience through the different
+            touchpoints within the museum to uncover its full potential — while
+            keeping art accessible to everyone?
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/img/moco-scratch/app-and-scratch.png"
+            alt="Moco Scratch — app and physical scratch card poster"
+          />
+        </div>
       </div>
+
+      <!-- 4 — Solution: text left, concept images right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — Solution</p>
+          <p class="cs-split__body">
+            Moco Scratch is a multi-layered interactive experience that provides
+            visitors with information and connection to the art and artists while
+            delivering an engaging, fun journey. Visitors take a physical scratch
+            card through the museum and at the end receive additional insights and
+            shareable assets digitally. For Moco, it is a phygital layer that
+            boosts satisfaction and return rates, captures artwork-preference
+            insights, and turns visitors into promoters.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--triple">
+          <img
+            src="/img/moco-scratch/your-insights.png"
+            alt="Moco Scratch app — summary of unlocked artwork insights"
+          />
+          <img
+            src="/img/moco-scratch/jeff-koons-details.png"
+            alt="Moco Scratch app — artwork insight detail for Jeff Koons' Balloon Venus"
+          />
+          <img
+            src="/img/moco-scratch/scratch-to-reveal.png"
+            alt="Moco Scratch app — scratch-to-reveal card interaction"
+          />
+        </div>
+      </div>
+
     </div>
 
-    <!-- 5 — Next project strip -->
-    <a class="cs-next" href="/projects/trends-report">
+    <!-- 5 — Full-width closing image (edge to edge) -->
+    <div class="cs-fullbleed-image">
+      <img
+        src="/img/moco-scratch-hero.png"
+        alt="Moco Scratch — deepening the museum visit"
+      />
+    </div>
+
+    <!-- 6 — Next project strip -->
+    <a class="cs-next" href="/projects/dutch-climate.html">
       <div class="cs-next__inner container">
         <div>
           <p class="cs-next__label">Next project</p>
-          <p class="cs-next__title">Trends Report</p>
+          <p class="cs-next__title">Dutch Climate Systems</p>
         </div>
         <span class="cs-next__arrow" aria-hidden="true">→</span>
       </div>
