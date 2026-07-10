@@ -24,11 +24,13 @@
            ============================================================ -->
       <section class="hero snap-panel">
         <div class="hero__inner container">
-          <h1 class="hero__title">
-            <span>Roan Eriks</span>
-          </h1>
+          <!-- Left: title with catchphrase + contact stacked below it
+               (Desktop-4 layout — the venn takes the right half). -->
+          <div class="hero__intro">
+            <h1 class="hero__title">
+              <span>Roan Eriks</span>
+            </h1>
 
-          <aside class="hero__aside">
             <p class="hero__catch">
               Industrial product designer working at the intersection of
               product and business strategy. Based in Barcelona.
@@ -51,7 +53,30 @@
                 <a class="hero__email" href="https://www.linkedin.com/in/RoanEriks" target="_blank" rel="noopener">LinkedIn ↗</a>
               </li>
             </ul>
-          </aside>
+          </div>
+
+          <!-- Right: the three engines venn — compact hero version of the
+               diagram on /engines.html (labels + RE core, no loop). -->
+          <div class="hero__venn" aria-label="Three engines — Business Design, Industrial Design and AI Labs">
+            <div class="engines-venn engines-venn--hero">
+              <div class="engine engine--bd">
+                <div class="engine__text">
+                  <h2 class="engine__label">Business Design</h2>
+                </div>
+              </div>
+              <div class="engine engine--id">
+                <div class="engine__text">
+                  <h2 class="engine__label">Industrial Design</h2>
+                </div>
+              </div>
+              <div class="engine engine--ai">
+                <div class="engine__text">
+                  <h2 class="engine__label">AI Labs</h2>
+                </div>
+              </div>
+              <p class="engines-venn__core" aria-label="RE — where all three engines overlap">RE</p>
+            </div>
+          </div>
 
           <p class="hero__scroll-cue">Scroll to see featured work</p>
         </div>

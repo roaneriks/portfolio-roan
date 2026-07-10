@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3 engines — Roan Eriks</title>
+  <meta name="description" content="How Roan works — three overlapping engines: Business Design, Industrial Design and AI Labs." />
+
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main class="engines container">
+    <!-- Editorial header — carries the "3 engines" title so the diagram
+         itself stays free of floating labels. -->
+    <header class="engines-header">
+      <p class="engines-header__kicker">How I work</p>
+      <h1 class="engines-header__title">3 engines</h1>
+      <p class="engines-header__lede">
+        Every project runs on three overlapping engines — the strategy to know
+        what's worth building, the craft to build it well, and the speed to
+        prove it works. Where they meet is where I work.
+      </p>
+    </header>
+
+    <!-- Venn diagram — chosen direction: tinted engines (navy / clay / sage)
+         whose fills mix in the overlaps, dotted construction-line loop.
+         Circles are HTML so type stays crisp and can be made interactive
+         later; the loop is a background SVG sharing the container's
+         760×700 coordinate space. -->
+    <section class="engines-venn" aria-label="Three engines Venn diagram">
+      <svg class="engines-venn__loop" viewBox="0 0 760 700" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+        <defs>
+          <marker id="loop-arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                  markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+            <path d="M1 1 L9 5 L1 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </marker>
+        </defs>
+        <!-- Three clockwise arcs on a 320px-radius loop around the diagram. -->
+        <g fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M 64.9 294.4 A 320 320 0 0 1 489.4 49.3" marker-end="url(#loop-arrow)" />
+          <path d="M 585.7 104.9 A 320 320 0 0 1 585.7 595.1" marker-end="url(#loop-arrow)" />
+          <path d="M 489.4 650.7 A 320 320 0 0 1 64.9 405.6" marker-end="url(#loop-arrow)" />
+        </g>
+      </svg>
+
+      <div class="engine engine--bd">
+        <div class="engine__text">
+          <h2 class="engine__label">Business Design</h2>
+          <ul class="engine__skills">
+            <li>Innovation</li>
+            <li>Strategy</li>
+            <li>Foresight</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="engine engine--id">
+        <div class="engine__text">
+          <h2 class="engine__label">Industrial Design</h2>
+          <ul class="engine__skills">
+            <li>Prototyping</li>
+            <li>CAD &amp; rendering</li>
+            <li>Design Thinking</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="engine engine--ai">
+        <div class="engine__text">
+          <h2 class="engine__label">AI Labs</h2>
+          <ul class="engine__skills">
+            <li>Exploration</li>
+            <li>Fast MVP</li>
+            <li>Implementation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- The centre of the Venn — the RE monogram on a round white badge,
+           echoing the Space Mono navy treatment used across the site. -->
+      <p class="engines-venn__core" aria-label="RE — where all three engines overlap">RE</p>
+    </section>
+
+    <!-- Endpoint of the diagram: the three engines resolve into a solution.
+         Static label for now — interaction comes in a later phase. -->
+    <div class="engines-flow">
+      <svg class="engines-flow__arrow" width="14" height="56" viewBox="0 0 14 56" aria-hidden="true" focusable="false">
+        <!-- Dotted shaft matches the loop's construction-line style. -->
+        <path d="M7 1 V47" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="2 5" />
+        <path d="M1.5 42.5 L7 49 L12.5 42.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <p class="engines-flow__pill">Solution</p>
+    </div>
+  </main>
+
+  <script src="/js/nav.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/motion.js"></script>
+</body>
+</html>

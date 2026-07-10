@@ -159,8 +159,8 @@ body {
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;          /* aside aligns to vertical middle of title */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46%);  /* intro left, venn right */
+  align-items: center;
   gap: var(--space-2xl);
   width: 100%;
   padding-block: var(--space-3xl) var(--space-2xl);
@@ -177,14 +177,15 @@ body {
 
 .hero__title span { display: block; }   /* stack the lines */
 
-/* Top-right catchphrase + contact block. */
-.hero__aside {
-  max-width: 38ch;
-  margin-right: var(--space-3xl);
+/* Left column: title with catchphrase + contact rows stacked below it. */
+.hero__intro {
+  max-width: 440px;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
 }
+
+.hero__intro .hero__title { margin-bottom: var(--space-xs); }
 
 .hero__catch {
   color: var(--color-text-secondary);
@@ -990,6 +991,214 @@ body.is-home {
 }
 
 /* =========================================================================
+   ENGINES  — "3 engines" Venn diagram page (standalone for now; designed to
+   drop into the homepage later). Circles are HTML so the type stays crisp
+   and each engine can become interactive in the motion phase; the outer
+   flow loop is an SVG sharing the container's 760×700 coordinate space.
+   ========================================================================= */
+.engines {
+  padding-top: clamp(120px, 16vh, 180px);
+  padding-bottom: var(--space-3xl);
+}
+
+.engines-header__kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.engines-header__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+}
+
+.engines-header__lede {
+  margin-top: var(--space-md);
+  max-width: 560px;
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+}
+
+/* ---------- Diagram container: 760×700 coordinate space ---------- */
+.engines-venn {
+  position: relative;
+  max-width: 760px;
+  margin: var(--space-2xl) auto 0;
+  aspect-ratio: 760 / 700;
+}
+
+.engines-venn__loop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--color-text-secondary);
+}
+
+/* Dotted construction-line style for the loop arcs. Scoped to the <g> so
+   the arrowhead paths inside <defs>/<marker> stay solid. */
+.engines-venn__loop g path {
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+
+/* ---------- The three circles ---------- */
+/* Each circle is 320/760 of the container wide and carries its own muted
+   tint; multiply lets the fills genuinely mix where the circles overlap. */
+.engine {
+  position: absolute;
+  width: 42.105%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+  container-type: inline-size;             /* type scales with the circle */
+}
+
+/* Centres form an equilateral triangle around the container midpoint. */
+.engine--bd { left: 28.947%; top: 8%;      background: rgba(30, 58, 95, 0.14); }   /* navy — top   (380, 216) */
+.engine--id { left: 13.684%; top: 36.714%; background: rgba(166, 92, 51, 0.13); }  /* clay — left  (264, 417) */
+.engine--ai { left: 44.211%; top: 36.714%; background: rgba(116, 134, 108, 0.16); }/* sage — right (496, 417) */
+
+/* Text sits toward the outer edge of each circle, clear of the overlaps.
+   The two lower blocks centre on the same optical line (55% of the circle),
+   mirrored left/right, so they read as a matched pair. */
+.engine__text {
+  position: absolute;
+  width: 68%;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.engine--bd .engine__text { left: 50%; top: 25%; }
+.engine--id .engine__text { left: 42%; top: 55%; width: 46%; transform: translate(-50%, -50%); } /* narrower so the label wraps */
+.engine--ai .engine__text { left: 58%; top: 55%; transform: translate(-50%, -50%); }
+
+.engine__label {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: clamp(1rem, 0.8rem + 0.9vw, 1.375rem);   /* fallback: 16 → 22px */
+  font-size: clamp(0.9rem, 6.9cqw, 1.375rem);         /* ~7% of circle width */
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+
+.engine__skills {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); /* fallback: 12 → 14px */
+  font-size: clamp(0.72rem, 4.4cqw, 0.875rem);          /* ~4.4% of circle width */
+  line-height: 1.5;
+}
+
+/* ---------- The RE core — round white badge over the mixing tints ---------- */
+/* Fixed equal width/height keeps it a true circle at every viewport. */
+.engines-venn__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-base);
+  border: var(--border-hairline);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-lg);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+/* ---------- Arrow down to the Solution endpoint ---------- */
+.engines-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.engines-flow__arrow { color: var(--color-text-secondary); }
+
+.engines-flow__pill {
+  border: 1px solid var(--color-text);
+  border-radius: 8px;
+  padding: 10px 56px;
+  font-size: var(--text-label);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Hero variant (homepage) ---------- */
+/* Compact venn for the hero's right column: same circles, labels + RE core
+   only — no loop, no skills. The container is a tight box around the
+   circles (568×537 in the 760×700 space), so there's no dead margin. */
+.engines-venn--hero {
+  margin: 0;
+  max-width: 560px;
+  aspect-ratio: 568 / 537;
+}
+
+.engines-venn--hero .engine { width: 56.338%; }          /* 320 / 568 */
+.engines-venn--hero .engine--bd { left: 21.83%; top: 1.49%; }
+.engines-venn--hero .engine--id { left: 1.41%;  top: 38.92%; }
+.engines-venn--hero .engine--ai { left: 42.25%; top: 38.92%; }
+
+/* No skills list in the hero, so each label sits at its circle's centre;
+   the narrow width wraps two-word labels to two lines like the wireframe. */
+.engines-venn--hero .engine .engine__text {
+  left: 50%;
+  top: 50%;
+  width: 52%;
+  transform: translate(-50%, -50%);
+}
+
+.engines-venn--hero .engines-venn__core { top: 56.24%; } /* Venn centroid */
+
+/* ---------- Small screens: vertical chain of overlapping circles ---------- */
+/* The triangular Venn gets too cramped below ~600px, so the circles stack
+   into a vertical chain (still overlapping) and the loop + core hide. */
+@media (max-width: 600px) {
+  .engines-venn {
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .engines-venn__loop,
+  .engines-venn__core { display: none; }
+
+  .engine {
+    position: static;
+    width: min(72vw, 300px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .engine + .engine { margin-top: -14%; }   /* keep the circles linked */
+
+  /* .engine .engine__text matches the specificity of the per-circle
+     desktop offsets above so the stacked layout wins on small screens. */
+  .engine .engine__text {
+    position: static;
+    transform: none;
+    width: auto;
+    padding: 0 14%;
+  }
+}
+
+/* =========================================================================
    RESPONSIVE  — minimal collapse so nothing breaks on small screens.
    (A full responsive pass is a later build step.)
    ========================================================================= */
@@ -998,6 +1207,10 @@ body.is-home {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
   }
+
+  /* The hero is a fixed 100vh snap panel — the venn doesn't fit under the
+     intro on small screens, so it lives on /engines.html only there. */
+  .hero__venn { display: none; }
 
   .nav__links { gap: var(--space-sm); }
 
