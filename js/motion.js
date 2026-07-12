@@ -75,9 +75,11 @@
     gsap.set(container, { y: yFor(currentIdx) });
 
     // ---- Wheel (mouse + trackpad) ----
+    // window.__introPlaying is set by intro.js — panels must not move
+    // underneath the intro overlay.
     window.addEventListener('wheel', function (e) {
       e.preventDefault();
-      if (isAnimating) return;
+      if (isAnimating || window.__introPlaying) return;
       goTo(currentIdx + (e.deltaY > 0 ? 1 : -1));
     }, { passive: false });
 
@@ -88,7 +90,7 @@
     }, { passive: true });
 
     window.addEventListener('touchend', function (e) {
-      if (isAnimating) return;
+      if (isAnimating || window.__introPlaying) return;
       var dy = touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(dy) < 30) return;   // ignore tiny taps
       goTo(currentIdx + (dy > 0 ? 1 : -1));

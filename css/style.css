@@ -336,11 +336,13 @@ img.panel__media-inner {
   display: block;
 }
 
-/* Product renders shown in full — no crop. White fill blends with the
-   renders' own white backgrounds. */
+/* Product renders shown in full — no crop. The tile fills with the page
+   colour and multiply folds the renders' own white backgrounds into it,
+   so the image blends into the page instead of sitting in a white box. */
 img.panel__media-inner--contain {
   object-fit: contain;
-  background: #fff;
+  background: var(--color-base);
+  mix-blend-mode: multiply;
 }
 
 /* Reverse panels: photo left, text right. */
@@ -1332,3 +1334,73 @@ body.is-home {
     overflow-wrap: anywhere;
   }
 }
+
+/* =========================================================================
+   INTRO  — first-visit loading animation (js/intro.js, homepage only).
+   .is-intro is set on <html> before first paint by the inline script in
+   index.html; intro.js swaps it for inline styles, runs the timeline and
+   clears everything, so the end state is pure stylesheet.
+   ========================================================================= */
+.is-intro .nav,
+.is-intro .snap-container { visibility: hidden; }
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;   /* above the nav (100) */
+}
+
+.intro__bg {
+  position: absolute;
+  inset: 0;
+  background: var(--color-base);
+}
+
+/* Corner captions — mono accents, like the project numbers. */
+.intro__tag,
+.intro__counter {
+  position: absolute;
+  bottom: var(--space-lg);
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+.intro__tag     { left: var(--page-padding); }
+.intro__counter { right: var(--page-padding); }
+
+/* Loader venn — same .engines-venn--hero geometry as the hero target.
+   The start box (centred on screen) is pure CSS so it never depends on
+   JS-measured viewport sizes; intro.js switches it to explicit px only
+   for the flight into the hero. */
+.intro__venn {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 50%;
+  width: min(80vw, 400px);
+  aspect-ratio: 568 / 537;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  max-width: none;
+}
+
+/* Rotation wrapper for the three circles; inset:0 keeps the circles'
+   percentage positions resolving against the same box. */
+.intro__spin {
+  position: absolute;
+  inset: 0;
+}
+
+/* Restore the triangle layout inside the loader on small screens (the
+   600px media query turns page venns into a static vertical chain). */
+.intro__venn .engine {
+  position: absolute;
+  width: 56.338%;
+  margin: 0;
+  display: block;
+}
+
+.intro__venn .engines-venn__core { display: flex; }

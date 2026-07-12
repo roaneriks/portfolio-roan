@@ -239,6 +239,36 @@ Build in this sequence. Deploy early and often.
 
 ---
 
+## Analytics (added July 2026)
+
+Anonymous visitor tracking with Supabase + a private dashboard at `/admin`.
+Setup steps for a fresh environment: see `SETUP-ANALYTICS.md`.
+
+**Architecture** — no credentials in the browser, database locked to public:
+- `js/analytics.js` (every page) → beacons events to `/api/track`
+- `api/track.js` (Vercel function) inserts into Supabase with the secret key
+  and adds country/region/city from Vercel's geo headers (no IPs stored)
+- `api/stats.js` returns events to the dashboard, gated by the
+  `x-admin-key` header checked against `ADMIN_PASSWORD`
+- `admin.html` + `css/admin.css` + `js/admin.js` — dashboard (demo mode:
+  `/admin?demo=1`). Chart marks use a colorblind-validated pair
+  (`#2F6CB3` / `#B4552D`), not the brand navy — navy is too dark for data marks.
+- `supabase/setup.sql` — single `events` table, RLS enabled with no policies
+
+**Env vars (Vercel):** `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `ADMIN_PASSWORD`
+
+**Gotchas discovered while building:**
+- The homepage never scrolls natively (GSAP slides `.snap-container`), so the
+  tracker reads the container's `-translateY` for click positions and scroll
+  depth — don't switch it back to plain `pageY`/`scrollY`.
+- Opening `/admin` sets `pf_notrack` in localStorage; that browser is then
+  excluded from tracking. Clear the key to test tracking locally
+  (localhost also needs `?track=1`).
+- The click-map iframe freezes `100vh` sections via injected CSS — an iframe
+  sized to its own `scrollHeight` otherwise feeds back (panels grow forever).
+
+---
+
 ## Working rules for Claude Code
 
 - Define all CSS custom properties (tokens) before writing any component styles

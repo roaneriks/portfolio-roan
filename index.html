@@ -9,6 +9,26 @@
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
   <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Intro gate — runs before first paint. Hides the page only when the
+       intro will actually play: first visit this session, motion allowed.
+       js/intro.js takes over from here; the timeout is a safety net that
+       un-hides the page if intro.js never runs (blocked CDN, JS error). -->
+  <script>
+    (function () {
+      try {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduce && !sessionStorage.getItem('introSeen')) {
+          document.documentElement.classList.add('is-intro');
+          setTimeout(function () {
+            if (!window.__introRan) {
+              document.documentElement.classList.remove('is-intro');
+            }
+          }, 2500);
+        }
+      } catch (e) { /* sessionStorage unavailable — skip the intro */ }
+    })();
+  </script>
 </head>
 <body>
   <!-- Shared nav, injected by js/nav.js -->
@@ -149,8 +169,10 @@
 
   </div><!-- /.snap-container -->
 
+  <script src="/js/analytics.js"></script>
   <script src="/js/nav.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="/js/motion.js"></script>
+  <script src="/js/intro.js"></script>
 </body>
 </html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Private analytics dashboard — unlinked, password-gated, never indexed. -->
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Analytics — Roan Eriks</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+
+  <!-- ======== Password gate (shown first; dashboard is behind it) ======== -->
+  <div class="gate" id="gate">
+    <form class="gate__card" id="gate-form">
+      <p class="mono-label">RE · ANALYTICS</p>
+      <h1 class="gate__title">Who goes there?</h1>
+      <input class="gate__input" id="gate-pass" type="password"
+             placeholder="Password" autocomplete="current-password" autofocus />
+      <button class="btn btn--solid" type="submit" id="gate-btn">View stats</button>
+      <p class="gate__error" id="gate-error" hidden>That's not it — try again.</p>
+    </form>
+  </div>
+
+  <!-- ======== Dashboard ======== -->
+  <main class="dash" id="dash" hidden>
+
+    <header class="dash__header">
+      <div>
+        <p class="mono-label">RE · ANALYTICS</p>
+        <h1 class="dash__title">Site analytics</h1>
+      </div>
+      <div class="dash__controls">
+        <div class="range" id="range" role="group" aria-label="Date range">
+          <button class="range__btn" data-days="7">7d</button>
+          <button class="range__btn is-active" data-days="30">30d</button>
+          <button class="range__btn" data-days="90">90d</button>
+          <button class="range__btn" data-days="365">1y</button>
+          <button class="range__btn" data-days="all">All</button>
+        </div>
+        <button class="btn" id="refresh-btn" title="Reload data">Refresh</button>
+        <button class="btn" id="logout-btn" title="Forget password on this device">Log out</button>
+      </div>
+    </header>
+
+    <p class="dash__note" id="demo-note" hidden>
+      Showing generated demo data (<code>?demo=1</code>) — not real visitors.
+    </p>
+    <p class="dash__note">
+      Your own visits from this browser are excluded from tracking.
+    </p>
+
+    <div class="dash__loading" id="loading" hidden>Loading events…</div>
+    <div class="dash__empty" id="empty" hidden>
+      No events in this period yet. Once the site is deployed with the
+      Supabase env vars set, visits start appearing here.
+    </div>
+
+    <div id="content" hidden>
+
+      <!-- Stat tiles -->
+      <section class="tiles" id="tiles" aria-label="Key numbers"></section>
+
+      <!-- Traffic over time -->
+      <section class="card">
+        <div class="card__head">
+          <h2 class="card__title">Traffic over time</h2>
+          <div class="legend" id="chart-legend"></div>
+        </div>
+        <div class="chart" id="time-chart"></div>
+        <details class="card__table">
+          <summary>Data table</summary>
+          <div class="table-wrap" id="time-table"></div>
+        </details>
+      </section>
+
+      <!-- Pages + sources -->
+      <div class="grid-2">
+        <section class="card">
+          <h2 class="card__title">Pages</h2>
+          <div id="pages-list"></div>
+        </section>
+        <section class="card">
+          <h2 class="card__title">Where visitors come from</h2>
+          <div id="sources-list"></div>
+          <h3 class="card__subtitle">Full referrer URLs</h3>
+          <div id="referrers-list" class="minor-list"></div>
+        </section>
+      </div>
+
+      <!-- Audience -->
+      <div class="grid-4">
+        <section class="card"><h2 class="card__title">Countries</h2><div id="countries-list"></div></section>
+        <section class="card"><h2 class="card__title">Devices</h2><div id="devices-list"></div></section>
+        <section class="card"><h2 class="card__title">Browsers</h2><div id="browsers-list"></div></section>
+        <section class="card"><h2 class="card__title">Languages</h2><div id="languages-list"></div></section>
+      </div>
+
+      <!-- Clicks -->
+      <div class="grid-2">
+        <section class="card">
+          <h2 class="card__title">Most clicked</h2>
+          <div id="clicks-list"></div>
+        </section>
+        <section class="card">
+          <h2 class="card__title">Outbound clicks</h2>
+          <p class="card__hint">Mail, LinkedIn, live project sites — the clicks that matter.</p>
+          <div id="outbound-list"></div>
+        </section>
+      </div>
+
+      <!-- Click heatmap -->
+      <section class="card">
+        <div class="card__head">
+          <h2 class="card__title">Click map</h2>
+          <div class="dash__controls">
+            <select class="select" id="hm-page" aria-label="Page to inspect"></select>
+            <div class="range" role="group" aria-label="Device">
+              <button class="range__btn is-active" id="hm-desktop">Desktop</button>
+              <button class="range__btn" id="hm-mobile">Mobile</button>
+            </div>
+          </div>
+        </div>
+        <p class="card__hint">Each dot is a real click, drawn on top of the live page.
+          Positions are approximate — visitors' screens differ from this preview.</p>
+        <div class="hm" id="hm-viewport">
+          <!-- sizer carries the scaled layout size; stage inside it is
+               transform-scaled, so iframe and dots shrink together -->
+          <div class="hm__sizer" id="hm-sizer">
+            <div class="hm__stage" id="hm-stage">
+              <iframe class="hm__frame" id="hm-frame" title="Page preview for click map" scrolling="no"></iframe>
+              <div class="hm__dots" id="hm-dots"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent activity -->
+      <section class="card">
+        <h2 class="card__title">Recent activity</h2>
+        <div class="table-wrap" id="activity-table"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="tooltip" id="tooltip" hidden></div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
