@@ -139,6 +139,13 @@ code {
   color: var(--color-text);
 }
 .gate__error { color: #A03A2A; font-size: var(--text-label); }
+.gate__note {
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  border-top: var(--border-hairline);
+  padding-top: var(--space-sm);
+  margin-top: var(--space-xs);
+}
 
 /* ---------- Dashboard layout ---------- */
 .dash {
