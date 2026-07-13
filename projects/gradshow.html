@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GradShow — Roan Eriks</title>
+  <meta name="description" content="GradShow — a live restaurant-menu platform for Elisava's Grad Show '26, designed and built by Roan Eriks." />
+
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── GradShow page-specific styles ───────────────────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .cs-split__body a {
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .cs-split__media {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .cs-split__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cs-split__media--single img {
+      aspect-ratio: 880 / 810;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cs-split__media--single--tall img {
+      aspect-ratio: 4 / 5;
+    }
+
+    /* Three phone-screenshot frames shown at their native portrait ratio. */
+    .cs-split__media--triple {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-sm);
+      align-items: start;
+    }
+
+    .cs-split__media--triple img {
+      width: 100%;
+      aspect-ratio: 708 / 1534;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .cs-fullbleed-image {
+      width: 100%;
+      margin: var(--space-2xl) 0 0;
+      overflow: hidden;
+      height: 730px;
+    }
+
+    .cs-fullbleed-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* Live-site CTA — mirrors the hairline rhythm of cs-meta above it. */
+    .cs-live {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 4px;
+      width: fit-content;
+      margin-top: var(--space-xl);
+      padding-top: var(--space-lg);
+      border-top: 0.5px solid var(--color-surface);
+      text-decoration: none;
+    }
+
+    .cs-live__label {
+      font-family: var(--font-mono);
+      font-size: var(--text-mono);
+      letter-spacing: var(--tracking-mono);
+      color: var(--color-text-secondary);
+    }
+
+    .cs-live__url {
+      font-family: var(--font-mono);
+      font-size: var(--text-mono-lg);
+      color: var(--color-accent);
+      transition: color 0.2s ease;
+    }
+
+    .cs-live:hover .cs-live__url { color: var(--color-text); }
+
+    @media (max-width: 768px) {
+      .cs-split {
+        grid-template-columns: 1fr;
+      }
+
+      .cs-split__media--triple {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <!-- 1 — Hero block -->
+    <header class="cs-hero container">
+      <p class="cs-hero__num">03</p>
+      <h1 class="cs-hero__title">GradShow</h1>
+      <p class="cs-hero__desc">A restaurant menu for the class of &rsquo;26</p>
+
+      <dl class="cs-meta">
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Role</dt>
+          <dd class="cs-meta__value">Business Designer &amp; Digital Product Designer</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Context</dt>
+          <dd class="cs-meta__value">Elisava — Grad Show &rsquo;26</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Year</dt>
+          <dd class="cs-meta__value">2025–2026</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Type</dt>
+          <dd class="cs-meta__value">Strategy, Digital Product</dd>
+        </div>
+      </dl>
+
+      <a class="cs-live" href="https://table34.vercel.app" target="_blank" rel="noopener">
+        <span class="cs-live__label">Live at the show</span>
+        <span class="cs-live__url">table34.vercel.app ↗</span>
+      </a>
+    </header>
+
+    <div class="container">
+
+      <!-- 3 — Challenge: text left, hero cover right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — Challenge</p>
+          <p class="cs-split__question">
+            How do you make 33 graduating designers, across two masters'
+            programmes, discoverable and memorable to the recruiters,
+            faculty and family who show up for one evening?
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/img/gradshow/hero-cover.png"
+            alt="GradShow — the Menu cover screen, 'You are seated, Table 34'"
+          />
+        </div>
+      </div>
+
+      <!-- 4 — Solution: text left, three app screens right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — Solution</p>
+          <p class="cs-split__body">
+            The Menu turns the Grad Show into a restaurant. Students are the
+            chefs, their teams are the tables, and the work they made is the
+            dishes. Visitors — the critics — browse by chef or by table, tap
+            straight from any bio to that team's project, and bookmark
+            favourites onto a personal plate. A stylised floor map gets them
+            to the right seat. Mobile-first and editorial — warm ink, cream
+            paper, terracotta accents, paper-grain texture — so it reads
+            like a menu, not a database.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--triple">
+          <img
+            src="/img/gradshow/tables-grid.png"
+            alt="GradShow — the Tables screen, a grid of the eight team projects"
+          />
+          <img
+            src="/img/gradshow/chef-profile.png"
+            alt="GradShow — a chef profile with bio, skills and the tables they worked"
+          />
+          <img
+            src="/img/gradshow/map.png"
+            alt="GradShow — a stylised floor map of the exhibition room"
+          />
+        </div>
+      </div>
+
+      <!-- 5 — Built & shipped: text left, table/dishes detail right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">03 — Built &amp; shipped</p>
+          <p class="cs-split__body">
+            Every other project on this site is a concept. GradShow isn't —
+            I designed the direction, then built and shipped the real thing
+            myself with Claude Code: React, Vite, 33 chef profiles and 8
+            table pages, live at the show and
+            <a href="https://table34.vercel.app" target="_blank" rel="noopener">still running today</a>.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--single cs-split__media--single--tall">
+          <img
+            src="/img/gradshow/table-dishes.png"
+            alt="GradShow — the IKEA table page, showing its dishes and the chefs behind each one"
+          />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 6 — Full-width closing image (edge to edge) -->
+    <div class="cs-fullbleed-image">
+      <img
+        src="/img/gradshow/fullbleed-banner.png"
+        alt="GradShow — 'You are seated, Table 34', the Menu's cover screen"
+      />
+    </div>
+
+    <!-- 7 — Next project strip -->
+    <a class="cs-next" href="/projects/dutch-climate.html">
+      <div class="cs-next__inner container">
+        <div>
+          <p class="cs-next__label">Next project</p>
+          <p class="cs-next__title">Dutch Climate Systems</p>
+        </div>
+        <span class="cs-next__arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+  </main>
+
+  <script src="/js/analytics.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/motion.js"></script>
+</body>
+</html>
