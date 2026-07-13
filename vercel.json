@@ -3,14 +3,14 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "roaneriks.vercel.app"
         }
       ],
-      "destination": "https://roaneriks.com/:path*",
+      "destination": "https://roaneriks.com/$1",
       "permanent": true
     }
   ]
