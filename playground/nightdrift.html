@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nightdrift — Roan Eriks</title>
+  <meta name="description" content="Nightdrift, a wind-down app built with a friend to end the day with rain instead of a feed." />
+
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Nightdrift page-specific styles (same system as kicktip.html) ── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__question {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    /* Three phone screenshots at their native portrait ratio. */
+    .cs-phones {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-phones img {
+      width: 100%;
+      aspect-ratio: 390 / 844;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .cs-phones figcaption {
+      margin-top: var(--space-xs);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    /* Single closing phone — the goodnight screen, centred like a full stop. */
+    .cs-phone-solo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-phone-solo img {
+      width: min(320px, 80vw);
+      aspect-ratio: 390 / 844;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .cs-phone-solo figcaption {
+      margin-top: var(--space-sm);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .cs-split { grid-template-columns: 1fr; }
+      .cs-phones { gap: 6px; }
+      .cs-phones figcaption { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <!-- 1 — Hero block. Playground piece: no project number, lighter meta. -->
+    <header class="cs-hero container">
+      <p class="cs-hero__num">Playground</p>
+      <h1 class="cs-hero__title">Nightdrift</h1>
+      <p class="cs-hero__desc">A wind-down app we built for a friend, to end the day with rain instead of a feed</p>
+
+      <dl class="cs-meta">
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Role</dt>
+          <dd class="cs-meta__value">Designer &amp; vibe-coder</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Context</dt>
+          <dd class="cs-meta__value">A friend&rsquo;s idea, built together</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Year</dt>
+          <dd class="cs-meta__value">2026</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Type</dt>
+          <dd class="cs-meta__value">Mobile web app, Side project</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="container">
+
+      <!-- 2 — Why it exists -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — Why</p>
+          <p class="cs-split__question">
+            The last thing most of us see at night is a feed. A friend of mine
+            wanted hers to be rain.
+          </p>
+        </div>
+        <div class="cs-split__text">
+          <p class="cs-split__body">
+            This one started as someone else&rsquo;s idea. A friend kept ending
+            her days the way most of us do, in bed and still scrolling, and she
+            wanted something on her phone that would actually help her stop. So
+            we built Nightdrift together, for her. It&rsquo;s a small React app
+            that asks how you feel (stressed, anxious, just tired, or already
+            calm) and answers with twenty minutes of recorded rain, storms,
+            forest or waves on a slowly spinning vinyl. There is no account to
+            make and no streak to keep up. It plays until you drift off, and
+            that&rsquo;s the whole product.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3 — The app, three screens -->
+      <div class="cs-phones">
+        <figure>
+          <img src="/img/nightdrift/landing.png" alt="Nightdrift landing screen with a floating moon and the line 'Your phone, but slower'" />
+          <figcaption>The landing screen. Her brief, in one line</figcaption>
+        </figure>
+        <figure>
+          <img src="/img/nightdrift/mood.png" alt="Nightdrift mood check screen asking how you feel, with four mood cards" />
+          <figcaption>The mood check. You answer with one tap</figcaption>
+        </figure>
+        <figure>
+          <img src="/img/nightdrift/player.png" alt="Nightdrift sound player with a spinning vinyl, soft rain selected and a session timer" />
+          <figcaption>The player. Soft rain, twenty minutes on the clock</figcaption>
+        </figure>
+      </div>
+
+      <!-- 4 — How it works -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — How it works</p>
+          <p class="cs-split__body">
+            Each mood picks a sound for you. Stressed and anxious get the
+            heavier tracks, tired and calm get the soft ones, and you can
+            always swap mid-session. Every session is twenty minutes. That
+            turned out to be plenty of time to fall asleep, and it means the
+            phone stops on its own instead of waiting for you to stop it. The
+            sounds are real recordings that loop, not generated noise.
+          </p>
+        </div>
+        <div class="cs-split__text">
+          <p class="cs-split__body">
+            The whole app is one HTML file with React inside, vibe-coded with
+            Claude Code. We stripped features after watching how it actually
+            got used at bedtime, which is a humbling kind of user test. The
+            screen we spent the most thought on is the last one. When the
+            timer runs out, the app has nothing left for you to tap. It dims
+            itself and says goodnight.
+          </p>
+        </div>
+      </div>
+
+      <!-- 5 — The goodnight screen, as the page's own full stop -->
+      <figure class="cs-phone-solo">
+        <img src="/img/nightdrift/goodnight.png" alt="Nightdrift goodnight screen with a crescent moon and the words 'Rest earned. Phone down. Goodnight.'" />
+        <figcaption>The goodnight screen. It ends the night instead of stretching it</figcaption>
+      </figure>
+
+    </div>
+
+    <!-- 6 — Back strip -->
+    <a class="cs-next" href="/playground.html">
+      <div class="cs-next__inner container">
+        <div>
+          <p class="cs-next__label">Back to</p>
+          <p class="cs-next__title">Playground</p>
+        </div>
+        <span class="cs-next__arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+  </main>
+
+  <script src="/js/analytics.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/motion.js"></script>
+</body>
+</html>

@@ -101,6 +101,15 @@
       gsap.set(container, { y: yFor(currentIdx) });
     });
 
+    // ---- Footer "Back to top": snap back to the hero panel ----
+    var topBtn = document.querySelector('[data-snap-top]');
+    if (topBtn) {
+      topBtn.addEventListener('click', function () {
+        if (isAnimating || window.__introPlaying) return;
+        goTo(0);
+      });
+    }
+
     return; // skip Lenis on homepage
   }
 

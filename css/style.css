@@ -151,7 +151,10 @@ body {
    HERO  (homepage)  — 100vh, oversized stacked title left, aside top-right.
    ========================================================================= */
 .hero {
+  /* min-height must use dvh too — a 100vh min would override the shorter
+     100dvh height from .snap-panel on mobile. */
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   position: relative;
@@ -256,7 +259,9 @@ body {
 }
 
 .panel {
+  /* dvh for the same reason as .hero — must not exceed the snap-panel height. */
   min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-bottom: var(--border-hairline);
@@ -355,8 +360,12 @@ img.panel__media-inner--contain {
    Each .snap-panel is exactly 100vh so the translate offset is always a
    clean multiple of the viewport height.
    ========================================================================= */
+html.is-home,
 body.is-home {
   overflow: hidden;
+  /* The page is always at scrollTop 0, so on Android every downward swipe
+     would trigger pull-to-refresh and reload the page mid-snap. */
+  overscroll-behavior: none;
 }
 
 .snap-container {
@@ -365,9 +374,101 @@ body.is-home {
 }
 
 .snap-panel {
+  /* dvh, not vh: motion.js snaps by window.innerHeight, and on mobile
+     browsers 100vh is the toolbar-hidden height — taller than innerHeight
+     while the toolbar shows (it never hides here; the page never scrolls
+     natively). dvh always matches innerHeight. vh line = fallback. */
   height: 100vh;
-  overflow: hidden;   /* clips content that would otherwise spill below 100vh */
+  height: 100dvh;
+  overflow: hidden;   /* clips content that would otherwise spill below the panel */
 }
+
+/* =========================================================================
+   OUTRO — closing homepage panel that doubles as the footer.
+   Full 100vh so it slots into the snap flow like every other panel:
+   centred "Let's talk" statement, link row, quiet meta strip at the bottom.
+   ========================================================================= */
+.outro {
+  border-top: var(--border-hairline);
+}
+
+.outro__inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--space-2xl) var(--space-lg);
+}
+
+/* Centred closing statement — takes all the free height above the links. */
+.outro__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-sm);
+}
+
+.outro__title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-display);
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  transition: color 0.25s ease;
+}
+
+.outro__title:hover { color: var(--color-accent); }
+
+.outro__line { color: var(--color-text-secondary); }
+
+.outro__links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm) var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.outro__link {
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  color: var(--color-accent);
+}
+
+.outro__link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Meta strip — the part that actually reads as a footer. */
+.outro__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+  border-top: 0.5px solid var(--color-surface-dark, #DCDCD8);
+  padding-top: var(--space-sm);
+}
+
+.outro__copy {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-text-secondary);
+}
+
+.outro__top {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  color: var(--color-accent);
+}
+
+.outro__top:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* =========================================================================
    PAGE STUB  — placeholder routes (Step 1 skeleton only).
@@ -676,6 +777,10 @@ body.is-home {
   border: var(--border-hairline);
   transition: background-color 0.25s ease;
 }
+
+/* `display: flex` above would otherwise beat the browser's default
+   [hidden] → display:none, so the tag filter needs this explicit rule. */
+.card[hidden] { display: none; }
 
 .card:hover { background: var(--color-hover); }   /* subtle background shift */
 
