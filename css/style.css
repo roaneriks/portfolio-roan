@@ -1061,6 +1061,22 @@ body.is-home {
 .masonry__media--wide   { aspect-ratio: 4 / 3; }
 .masonry__media--square { aspect-ratio: 1 / 1; }
 .masonry__media--phone  { aspect-ratio: 9 / 16; }   /* app screenshots */
+.masonry__media--logo    { aspect-ratio: 1 / 1; }   /* app icon / logo */
+
+/* App-icon tiles: the mark sits centred on the app's own dark background,
+   contained (never cropped) with breathing room around it. */
+.masonry__media--logo {
+  background: #070c1d;              /* Kicktip brand navy */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.masonry__media--logo img {
+  width: 55%;
+  height: 55%;
+  object-fit: contain;
+}
+.masonry__link:hover .masonry__media--logo img { transform: scale(1.05); }
 
 /* Tiles with a real visual: the link wraps the whole card, the image fills
    the media box and gets the same slow hover scale as homepage panels. */

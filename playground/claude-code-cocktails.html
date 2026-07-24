@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code Cocktails — Roan Eriks</title>
+  <meta name="description" content="A hands-on three-hour workshop teaching classmates to build and ship with Claude Code — cocktails included." />
+
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Claude Code Cocktails — simple text + image rows ── */
+    .cs-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+      padding: var(--space-xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-row__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .cs-row__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-row__body {
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      font-weight: 400;
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .cs-row__body a {
+      color: var(--color-accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .cs-row__media img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+
+    /* Two images share the media column, cropped to a common ratio. */
+    .cs-row__media--pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+    }
+
+    .cs-row__media--pair img {
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+    }
+
+    /* Image on the left, text on the right. */
+    .cs-row--reverse .cs-row__media { order: -1; }
+
+    @media (max-width: 768px) {
+      .cs-row { grid-template-columns: 1fr; }
+      .cs-row--reverse .cs-row__media { order: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <!-- 1 — Hero block. Playground piece: title only, kept light. -->
+    <header class="cs-hero container">
+      <p class="cs-hero__num">Playground</p>
+      <h1 class="cs-hero__title">Claude Code Cocktails</h1>
+    </header>
+
+    <div class="container">
+
+      <!-- 01 — Why -->
+      <div class="cs-row">
+        <div class="cs-row__text">
+          <p class="cs-row__label">01 — Why</p>
+          <p class="cs-row__body">
+            I spent the last couple of months learning Claude Code by building
+            real projects. A few classmates wanted to learn the same way, so I
+            organized a hands-on three-hour workshop with cocktails.
+          </p>
+        </div>
+        <div class="cs-row__media">
+          <img src="/img/claude-code-cocktails/classroom.jpg" alt="The classroom during the workshop — everyone working on their laptops around the table" />
+        </div>
+      </div>
+
+      <!-- 02 — What we did -->
+      <div class="cs-row cs-row--reverse">
+        <div class="cs-row__text">
+          <p class="cs-row__label">02 — What we did</p>
+          <p class="cs-row__body">
+            In my experience, the setup is the hard part. Once GitHub, Vercel,
+            and Claude Code are connected, it&rsquo;s just as easy as any other
+            vibe-coding tool. So that was the goal for the class: get the setup
+            done, then deploy something by the end. We worked through it
+            together, step by step. Some people rebuilt a portfolio they already
+            had, others just made something for fun.
+          </p>
+        </div>
+        <div class="cs-row__media cs-row__media--pair">
+          <img src="/img/claude-code-cocktails/teaching.jpg" alt="Roan explaining the setup to the group at the table" />
+          <img src="/img/claude-code-cocktails/presenting.jpg" alt="Roan presenting at the front of the room" />
+        </div>
+      </div>
+
+      <!-- 03 — The result -->
+      <div class="cs-row">
+        <div class="cs-row__text">
+          <p class="cs-row__label">03 — The result</p>
+          <p class="cs-row__body">
+            By the end, everyone had a live URL. A few rebuilt existing
+            portfolios into real sites. Vera made a
+            <a href="https://starter-site-six.vercel.app" target="_blank" rel="noopener">Dogs vs Cat</a>
+            fight animation just because it was funny, and it&rsquo;s one of my
+            favorite things that came out of the day.
+          </p>
+        </div>
+        <div class="cs-row__media cs-row__media--pair">
+          <img src="/img/claude-code-cocktails/result.jpg" alt="Vera's project on screen, mid-build during the workshop" />
+          <img src="/img/claude-code-cocktails/celebrating.jpg" alt="The group celebrating at the end of the workshop, everyone shipped something live" />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Back strip -->
+    <a class="cs-next" href="/playground.html">
+      <div class="cs-next__inner container">
+        <div>
+          <p class="cs-next__label">Back to</p>
+          <p class="cs-next__title">Playground</p>
+        </div>
+        <span class="cs-next__arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+  </main>
+
+  <script src="/js/analytics.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/motion.js"></script>
+</body>
+</html>
