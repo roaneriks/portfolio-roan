@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GradShow — Roan Eriks</title>
-  <meta name="description" content="GradShow — a live restaurant-menu platform for Elisava's Grad Show '26, designed and built by Roan Eriks." />
+  <meta name="description" content="Table+34 — a three-day restaurant-themed graduation show for Elisava's class of '26, curated by the class and carried by a companion app built by Roan Eriks." />
 
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/tokens.css" />
@@ -75,6 +75,21 @@
 
     .cs-split__media--single--tall img {
       aspect-ratio: 4 / 5;
+    }
+
+    /* Two event photos shown side by side at a portrait ratio. */
+    .cs-split__media--pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+      align-items: start;
+    }
+
+    .cs-split__media--pair img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: 8px;
     }
 
     /* Three phone-screenshot frames shown at their native portrait ratio. */
@@ -155,12 +170,12 @@
     <header class="cs-hero container">
       <p class="cs-hero__num">03</p>
       <h1 class="cs-hero__title">GradShow</h1>
-      <p class="cs-hero__desc">A restaurant menu for the class of &rsquo;26</p>
+      <p class="cs-hero__desc">A graduation, served as a three-day restaurant</p>
 
       <dl class="cs-meta">
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Role</dt>
-          <dd class="cs-meta__value">Business Designer &amp; Digital Product Designer</dd>
+          <dd class="cs-meta__value">Co-organiser &amp; Digital Product Designer</dd>
         </div>
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Context</dt>
@@ -172,7 +187,7 @@
         </div>
         <div class="cs-meta__item">
           <dt class="cs-meta__label">Type</dt>
-          <dd class="cs-meta__value">Strategy, Digital Product</dd>
+          <dd class="cs-meta__value">Event curation, Strategy, Product</dd>
         </div>
       </dl>
 
@@ -184,71 +199,82 @@
 
     <div class="container">
 
-      <!-- 3 — Challenge: text left, hero cover right -->
+      <!-- 3 — The show: text left, event photos right -->
       <div class="cs-split">
         <div class="cs-split__text">
-          <p class="cs-split__label">01 — Challenge</p>
+          <p class="cs-split__label">01 — The show</p>
           <p class="cs-split__question">
-            How do you make 33 graduating designers, across two masters'
-            programmes, discoverable and memorable to the recruiters,
-            faculty and family who show up for one evening?
+            How do you design and organize a Grad Show with eight projects
+            in one classroom?
+          </p>
+          <p class="cs-split__body">
+            For three days, our class turned the Grad Show into a restaurant:
+            Table+34. Every project was plated like a dish on a dinner table.
+            The students were the chefs, their teams were the tables, and the
+            work was the dishes. Companies, mentors, friends and curious guests
+            pulled up a chair. The whole room was curated by our class alone.
           </p>
         </div>
-        <div class="cs-split__media cs-split__media--single">
+        <div class="cs-split__media cs-split__media--pair">
           <img
-            src="/img/gradshow/hero-cover.png"
-            alt="GradShow — the Menu cover screen, 'You are seated, Table 34'"
+            src="/img/gradshow/show-table.jpg"
+            alt="The Table+34 dinner table set through the classroom, with the 'Meet the Chefs' wall behind it"
+          />
+          <img
+            src="/img/gradshow/show-dish.jpg"
+            alt="A project plated on a dinner plate, with a QR card to meet the chefs behind it"
           />
         </div>
       </div>
 
-      <!-- 4 — Solution: text left, three app screens right -->
+      <!-- 4 — The app: text left, three app screens right -->
       <div class="cs-split">
         <div class="cs-split__text">
-          <p class="cs-split__label">02 — Solution</p>
+          <p class="cs-split__label">02 — The app</p>
           <p class="cs-split__body">
-            The Menu turns the Grad Show into a restaurant. Students are the
-            chefs, their teams are the tables, and the work they made is the
-            dishes. Visitors — the critics — browse by chef or by table, tap
-            straight from any bio to that team's project, and bookmark
-            favourites onto a personal plate. A stylised floor map gets them
-            to the right seat. Mobile-first and editorial — warm ink, cream
-            paper, terracotta accents, paper-grain texture — so it reads
-            like a menu, not a database.
+            To help visitors navigate the room, I built an app you opened by
+            scanning a QR code at your table. Browse the chefs, explore each
+            project, and find the people behind the work. On the app you can
+            read what each team set out to do, see who made it, and stay with a
+            project longer than a glance at the table allowed. A floor map got
+            you to the right seat, and anonymous analytics showed us which
+            tables people kept coming back to.
           </p>
         </div>
         <div class="cs-split__media cs-split__media--triple">
           <img
-            src="/img/gradshow/tables-grid.png"
-            alt="GradShow — the Tables screen, a grid of the eight team projects"
+            src="/img/gradshow/app-menu.png"
+            alt="The Table+34 app menu screen — 'You are seated, Table+34', with the two kitchens listed below"
           />
           <img
             src="/img/gradshow/chef-profile.png"
-            alt="GradShow — a chef profile with bio, skills and the tables they worked"
+            alt="A chef profile in the app, with bio, skills and the tables they worked"
           />
           <img
             src="/img/gradshow/map.png"
-            alt="GradShow — a stylised floor map of the exhibition room"
+            alt="The app's stylised floor map of the exhibition room"
           />
         </div>
       </div>
 
-      <!-- 5 — Built & shipped: text left, table/dishes detail right -->
+      <!-- 5 — Built lean: text left, Roan in the room right -->
       <div class="cs-split">
         <div class="cs-split__text">
-          <p class="cs-split__label">03 — Built &amp; shipped</p>
+          <p class="cs-split__label">03 — Built lean</p>
           <p class="cs-split__body">
-            Every other project on this site is a concept. GradShow isn't —
-            I designed the direction, then built and shipped the real thing
-            myself with Claude Code: React, Vite, 33 chef profiles and 8
-            table pages, live at the show and
-            <a href="https://table34.vercel.app" target="_blank" rel="noopener">still running today</a>.
+            Pulling an event like this together in a few weeks taught us a lot
+            about working lean, staying agile, and getting something ambitious
+            done as a team. The app was part of that. I designed it and built
+            it, and it's
+            <a href="https://table34.vercel.app" target="_blank" rel="noopener">still live today</a>.
+            The dishes may be gone, but the conversations are just getting
+            started.
           </p>
         </div>
         <div class="cs-split__media cs-split__media--single cs-split__media--single--tall">
           <img
-            src="/img/gradshow/table-dishes.png"
-            alt="GradShow — the IKEA table page, showing its dishes and the chefs behind each one"
+            src="/img/gradshow/built-roan.jpg"
+            alt="Roan standing between the two Table+34 tables in the finished exhibition room"
           />
         </div>
       </div>
@@ -258,8 +284,8 @@
     <!-- 6 — Full-width closing image (edge to edge) -->
     <div class="cs-fullbleed-image">
       <img
-        src="/img/gradshow/fullbleed-banner.png"
-        alt="GradShow — 'You are seated, Table 34', the Menu's cover screen"
+        src="/img/gradshow/event-crowd.jpg"
+        alt="Guests filling the room at the Table+34 Grad Show, talking around the tables"
       />
     </div>
 
