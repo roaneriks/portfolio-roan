@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convi-light — Roan Eriks</title>
+  <meta name="description" content="Convi-light — an industrial, robust pendant lamp with plants falling from the sides, designed during an internship at Convident." />
+
+  <link rel="stylesheet" href="/css/fonts.css" />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* ── Convi-light page-specific styles ────────────────── */
+    .cs-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+      padding: var(--space-2xl) 0;
+      border-top: 0.5px solid var(--color-surface);
+    }
+
+    .cs-split__text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .cs-split__label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--color-accent);
+    }
+
+    .cs-split__body {
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--color-text);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .cs-split__media {
+      display: flex;
+      gap: var(--space-sm);
+    }
+
+    .cs-split__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cs-split__media--single img {
+      aspect-ratio: 16 / 11;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    /* Two portrait construction shots, side by side. */
+    .cs-split__media--double {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+      align-items: start;
+    }
+
+    .cs-split__media--double img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+    }
+
+    /* Lead: intro text on the left, reveal image (half width) on the right. */
+    .cs-lead {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: center;
+      margin-top: var(--space-xl);
+      padding-bottom: var(--space-lg);
+    }
+
+    .cs-lead__text p {
+      font-family: var(--font-body);
+      font-size: clamp(19px, 2vw, 22px);
+      line-height: 1.55;
+      color: var(--color-text);
+      margin: 0;
+      max-width: 520px;
+    }
+
+    .cs-lead__media img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Full-width making-of image, edge to edge. */
+    .cs-fullbleed-image {
+      width: 100%;
+      margin: var(--space-2xl) 0 0;
+      overflow: hidden;
+    }
+
+    .cs-fullbleed-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Closing pair: the lamp living in Convident's conference room. */
+    .cs-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+      padding: var(--space-2xl) 0 0;
+    }
+
+    .cs-duo img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .cs-split {
+        grid-template-columns: 1fr;
+      }
+
+      .cs-duo {
+        grid-template-columns: 1fr;
+      }
+
+      .cs-lead {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-nav"></div>
+
+  <main>
+    <!-- 1 — Hero block -->
+    <header class="cs-hero container">
+      <p class="cs-hero__num">07</p>
+      <h1 class="cs-hero__title">Convi-light</h1>
+      <p class="cs-hero__desc">Industrial style pendant lamp in conference room.</p>
+
+      <dl class="cs-meta">
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Role</dt>
+          <dd class="cs-meta__value">Product Designer</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Context</dt>
+          <dd class="cs-meta__value">Internship — Convident digital agency</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Year</dt>
+          <dd class="cs-meta__value">2021</dd>
+        </div>
+        <div class="cs-meta__item">
+          <dt class="cs-meta__label">Type</dt>
+          <dd class="cs-meta__value">Product Design, Craft</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="container">
+
+      <!-- 2 — Reveal + intro: text left, lamp right -->
+      <div class="cs-lead">
+        <div class="cs-lead__text">
+          <p>
+            During my internship, I single-handedly designed and created this
+            industrial, robust looking, pending lamp with plants falling from the
+            sides. The convi-light is located in Convident's conference room.
+          </p>
+        </div>
+        <div class="cs-lead__media">
+          <img
+            src="/Content/ConviLight/Afbeelding3.2.jpg"
+            alt="The Convi-light pendant lamp up close — a wooden trough of trailing plants above a black metal frame with three exposed bulbs"
+          />
+        </div>
+      </div>
+
+      <!-- 4 — In the room: text left, warm bulb detail right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">01 — In the room</p>
+          <p class="cs-split__body">
+            The deep green plants contrast with the wood, creating a natural
+            ambiance in the room. The metal frame provides the industrial look.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--single">
+          <img
+            src="/Content/ConviLight/Afbeelding9.jpg"
+            alt="Close-up of the three warm filament bulbs hanging beneath the wooden trough"
+          />
+        </div>
+      </div>
+
+      <!-- 5 — Construction: text left, two build shots right -->
+      <div class="cs-split">
+        <div class="cs-split__text">
+          <p class="cs-split__label">02 — Construction</p>
+          <p class="cs-split__body">
+            Important for the construction is the fact that it must be level. It
+            was also required that the construction is invisible for the eye, by
+            request from the client. In the construction, the heaviest elements
+            are held together by only four bolts. These bolts are connected with
+            chains to a center chain, making it easily possible to correct the
+            spirit level. This construction also made it possible to create the
+            wooden components from just one plank. Driving down the cost.
+          </p>
+        </div>
+        <div class="cs-split__media cs-split__media--double">
+          <img
+            src="/Content/ConviLight/Afbeelding10.jpg"
+            alt="The wooden trough seated inside the welded black metal frame during assembly"
+          />
+          <img
+            src="/Content/ConviLight/Afbeelding11.jpg"
+            alt="Close-up of the raw welded steel frame before finishing"
+          />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 6 — Making-of: welding the frame, edge to edge -->
+    <div class="cs-fullbleed-image">
+      <img
+        src="/Content/ConviLight/Afbeelding8.png"
+        alt="Roan grinding the steel frame in the workshop, sparks flying"
+      />
+    </div>
+
+    <div class="container">
+      <!-- 7 — Closing pair: the lamp installed in the conference room -->
+      <div class="cs-duo">
+        <img
+          src="/Content/ConviLight/Afbeelding4.jpg"
+          alt="The Convi-light hanging over the conference table in daylight"
+        />
+        <img
+          src="/Content/ConviLight/Afbeelding1.2.jpg"
+          alt="The Convi-light lighting the conference room in the evening"
+        />
+      </div>
+    </div>
+
+    <!-- 8 — Next project strip -->
+    <a class="cs-next" href="/projects/japandi-table.html">
+      <div class="cs-next__inner container">
+        <div>
+          <p class="cs-next__label">Next project</p>
+          <p class="cs-next__title">Japandi Table</p>
+        </div>
+        <span class="cs-next__arrow" aria-hidden="true">→</span>
+      </div>
+    </a>
+  </main>
+
+  <!-- Let's talk — closing call-to-action footer -->
+  <footer class="cs-cta">
+    <a class="cs-cta__inner container" href="/contact.html">
+      <p class="cs-cta__prompt">Got a project in mind?</p>
+      <span class="cs-cta__action">
+        Let's talk
+        <span class="cs-cta__arrow" aria-hidden="true">→</span>
+      </span>
+    </a>
+  </footer>
+
+  <script src="/js/analytics.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/motion.js"></script>
+</body>
+</html>
