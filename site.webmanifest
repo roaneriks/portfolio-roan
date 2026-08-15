@@ -1,0 +1,11 @@
+{
+  "name": "Roan Eriks",
+  "short_name": "Roan Eriks",
+  "icons": [
+    { "src": "/img/favicons/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/img/favicons/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "theme_color": "#1E3A5F",
+  "background_color": "#FAFAF8",
+  "display": "standalone"
+}
