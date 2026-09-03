@@ -953,21 +953,17 @@ body.is-home {
 
 .about-intro__content { min-width: 0; }
 
-/* Opening statement, larger and set in the display face. */
-.about-intro__lead {
-  max-width: 18ch;
-  font-family: var(--font-display);
-  font-weight: var(--weight-display);
-  font-size: var(--text-display);
-  line-height: var(--leading-snug);
+/* No separate lead line: the opening paragraphs are the statement, set a few
+   steps above body copy so they still carry the top of the page. */
+.about-intro__body { max-width: 900px; }
+
+.about-intro__body p {
+  color: var(--color-text);
+  font-size: clamp(1.25rem, 1.05rem + 0.85vw, 1.75rem); /* 20 → 28px */
+  line-height: 1.35;
   letter-spacing: -0.01em;
-  margin-bottom: var(--space-xl);
 }
-
-.about-intro__body { max-width: 560px; }
-
-.about-intro__body p { color: var(--color-text-secondary); }
-.about-intro__body p + p { margin-top: var(--space-md); }
+.about-intro__body p + p { margin-top: var(--space-lg); }
 
 .about-intro__image {
   width: clamp(220px, 28vw, 380px);
@@ -1435,6 +1431,21 @@ body.is-home {
   .projects-header__side {
     align-items: flex-start;
     text-align: left;
+  }
+
+  /* About: intro stacks — portrait above the opening paragraphs, which are
+     set large and need the full column width. */
+  .about-intro {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .about-intro__content { order: 2; }
+
+  .about-intro__image {
+    order: 1;
+    width: 100%;
+    aspect-ratio: 4 / 3;
   }
 
   /* About: skills/education strip stacks. */
