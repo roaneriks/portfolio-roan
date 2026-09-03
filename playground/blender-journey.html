@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Without this a phone lays the page out at 980px and scales it down,
+     which shrinks the cards past reading size. -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Blender Journey — Roan Eriks</title>
+<meta name="description" content="A scroll-driven climb up a foggy library staircase — a scene written as Python, rendered in Blender, and played back in the browser.">
+
+<!-- The site's own stylesheets, so the nav pill here IS the shared component
+     rather than a copy of it. They load BEFORE the piece's <style> below, which
+     re-asserts the dark ground and the frame's own layout over the top. -->
+<link rel="stylesheet" href="/css/fonts.css">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Favicons -->
+<link rel="icon" href="/img/favicons/favicon.ico" sizes="any">
+<link rel="icon" href="/img/favicons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/img/favicons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0b0b0d">
+
+<!-- Open Graph — the tile that shows when the climb is shared. -->
+<meta property="og:title" content="My Blender Journey — Roan Eriks">
+<meta property="og:description" content="Scroll to climb. A staircase written as Python, rendered in Blender, played back in the browser.">
+<meta property="og:image" content="https://roaneriks.com/img/blender-journey/thumb.jpg">
+<meta property="og:url" content="https://roaneriks.com/playground/blender-journey">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root { --ink: #e8e4dc; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #0b0b0d; color: var(--ink);
+               font-family: ui-sans-serif, system-ui, sans-serif; }
+  #stage { position: fixed; inset: 0; }
+  canvas { width: 100%; height: 100%; display: block; }
+  /* The scroll track: the sum of its children is what the wheel moves through,
+     and that same range is what the camera path is mapped onto. Adding or
+     removing a beat lengthens or shortens the climb -- it does not desync it. */
+  #track { position: relative; z-index: 2; }
+
+  /* Opening title. Faded out by hand against scroll rather than by the beat
+     observer, so it is gone before the first card arrives.
+
+     The section is taller than the screen it holds, and the title inside it is
+     sticky, so the first stretch of the page scrolls with the title standing
+     still: the nav pill morphs the way it does everywhere else on the site and
+     the climb has not started yet. That extra height IS the lock -- the browser
+     holds the title on the compositor, which a transform written from the
+     animation frame cannot do without trailing the scroll by a frame and
+     visibly shaking. It is also the one place the lock's length is written
+     down; the script measures it back off these two boxes rather than keeping
+     its own copy of the number. 28vh outlasts the pill's 60px trigger and its
+     0.4s animation at ordinary trackpad speed, capped so a tall window does not
+     turn the wait into a scroll of its own. */
+  .lead { height: calc(90vh + min(28vh, 250px)); }
+  .lead__hold { position: sticky; top: 0; height: 90vh;
+          display: grid; place-content: center; text-align: center;
+          padding: 0 8vw; pointer-events: none; }
+  .lead h1 { margin: 0 0 .7rem; font-weight: 600; letter-spacing: -.02em;
+             font-size: clamp(2rem, 5vw, 3.4rem); text-wrap: balance; }
+  .lead p { margin: 0; font-size: .8rem; letter-spacing: .18em;
+            text-transform: uppercase; opacity: .55; }
+  /* Long enough that the wash to white has room to happen after the last
+     card has left, rather than on top of it -- and now long enough again that
+     the closing note has room to arrive after the wash and be read before the
+     page runs out. Three viewports: roughly one to go white, one to bring the
+     text up, one to sit with it. */
+  .tail { height: 300vh; }
+
+  /* Sits over the frame and the cards alike, under the loader. */
+  #white { position: fixed; inset: 0; z-index: 5; background: #fff;
+           opacity: 0; pointer-events: none; }
+
+  /* One beat is one card's worth of scroll. The card rides in, then sticks:
+     for the middle stretch of the beat it is pinned to the viewport and does
+     not move at all while the wheel keeps turning, so the climb runs on behind
+     a card that is standing still. That pause is the part you feel. The beat is
+     170vh and the pin is 100vh, so 70vh of scrolling happens against a
+     stationary card. */
+  .beat { height: 170vh; position: relative; }
+  .hold { position: sticky; top: 0; height: 100vh; display: flex;
+          align-items: center; padding: 0 7vw; pointer-events: none; }
+  .beat.right .hold { justify-content: flex-end; }
+
+  /* Opacity and lift are written every frame from the beat's own progress
+     rather than handed to a CSS transition, so a fade cannot drift out of step
+     with a scroll that stops halfway through one. */
+  .climb-card { width: min(29rem, 84vw); background: #ececea; color: #0d0d0f;
+          border-radius: 26px; padding: clamp(1.3rem, 2.1vw, 1.9rem);
+          box-shadow: 0 28px 70px rgba(0,0,0,.55);
+          opacity: 0; will-change: opacity, transform; }
+
+  .climb-card .eyebrow { margin: 0 0 .4rem; font-size: .68rem; letter-spacing: .16em;
+                   text-transform: uppercase; color: #7b7b78; }
+  .climb-card h2 { margin: 0 0 .6rem; font-weight: 800; letter-spacing: -.025em;
+             line-height: 1; font-size: clamp(1.7rem, 3vw, 2.3rem); }
+  .climb-card .body { margin: 0; color: #26262a; line-height: 1.45;
+                font-size: clamp(.94rem, 1.05vw, 1.02rem); }
+
+  /* Media well. The two donut shots are dropped in by hand, so a missing file
+     has to degrade into the grey block of the mock rather than a broken icon. */
+  .media { margin: 0 0 1.05rem; display: grid; gap: .4rem;
+           grid-template-columns: 1fr; }
+  .media img { display: block; width: 100%; aspect-ratio: 16 / 10;
+               object-fit: cover; background: #d3d3d1; border-radius: 5px; }
+  .media.two { grid-template-columns: 1fr 1fr; }
+  /* The Claude donut is a square render. Its well is square too, so the image
+     fills the frame edge to edge and still loses nothing to the crop. */
+  .media.square img { aspect-ratio: 1 / 1; }
+  .media.empty { background: #d3d3d1; border-radius: 5px; aspect-ratio: 16 / 10;
+                 place-content: center; }
+  .media.empty::after { content: attr(data-ph); padding: 0 1.2rem; text-align: center;
+                        font-size: .7rem; letter-spacing: .07em; color: #86868a; }
+  .media figure { margin: 0; }
+  .media figcaption { margin-top: .35rem; font-size: .64rem; letter-spacing: .1em;
+                      text-transform: uppercase; color: #75757a; }
+
+  /* Card four is a list of three techniques rather than a paragraph. */
+  .climb-card dl { margin: 0; color: #26262a; line-height: 1.45; font-size: .95rem; }
+  .climb-card dt { margin-top: .8rem; font-weight: 700; }
+  .climb-card dt:first-of-type { margin-top: 0; }
+  .climb-card dd { margin: .1rem 0 0; }
+
+  /* Narrow screens have no room to hold a card to one side of the frame. */
+  @media (max-width: 700px) {
+    .hold { padding: 0 5vw; justify-content: center; }
+    .beat.right .hold { justify-content: center; }
+  }
+  /* The landing. Sits over the wash, and its opacity is written every frame
+     from the same scroll the wash uses, so the note arrives once the frame
+     behind it has actually gone rather than on top of the last of the climb.
+     Type here is the site's, not the piece's: this is the moment the visitor
+     is being handed back to the portfolio. */
+  #climb-outro { position: fixed; inset: 0; z-index: 6; display: grid;
+           place-content: center; padding: 0 8vw; text-align: center;
+           color: #0B0B0B; opacity: 0; pointer-events: none; }
+  .climb-outro__inner { max-width: 46rem; }
+  .climb-outro__eyebrow { margin: 0 0 1rem; font-size: .72rem; letter-spacing: .16em;
+                    text-transform: uppercase; color: #1E3A5F;
+                    font-family: 'Space Mono', ui-monospace, Menlo, monospace; }
+  .climb-outro__title { margin: 0 0 1.1rem; font-weight: 600; letter-spacing: -.01em;
+                  line-height: 1.12; font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+                  text-wrap: balance;
+                  font-family: 'Clash Display', 'Helvetica Neue', Arial, sans-serif; }
+  .climb-outro__body { margin: 0 auto; max-width: 34rem; color: #5A5A57;
+                 font-size: clamp(.98rem, 1.1vw, 1.06rem); line-height: 1.65;
+                 font-family: 'General Sans', 'Helvetica Neue', Arial, sans-serif; }
+  .climb-outro__back { display: inline-block; margin-top: 2.4rem; font-weight: 500;
+                 font-size: .92rem; color: #1E3A5F; text-decoration: none;
+                 padding-bottom: 2px; border-bottom: 1px solid rgba(30,58,95,.3);
+                 transition: border-color .25s;
+                 font-family: 'General Sans', 'Helvetica Neue', Arial, sans-serif; }
+  .climb-outro__back:hover { border-bottom-color: #1E3A5F; }
+
+  #load { position: fixed; inset: 0; display: grid; place-content: center;
+          gap: 1rem; background: #0b0b0d; z-index: 9; transition: opacity .5s; }
+  #bar { width: 40vw; max-width: 320px; height: 2px; background: #26262b; }
+  #bar i { display: block; height: 100%; width: 0; background: var(--ink); }
+</style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<div id="stage"><canvas id="gl"></canvas></div>
+
+<!-- The scroll track. Every child contributes to the scroll range, and the
+     camera path is stretched across whatever that range turns out to be.
+     A beat is a section wrapping a .hold wrapping an article.climb-card; the .hold
+     is the piece that sticks. Add .right to the section to keep the card on the
+     far side of the frame. -->
+<div id="track">
+
+  <section class="lead">
+    <div class="lead__hold" id="lead">
+      <h1>My Blender Journey</h1>
+      <p>Scroll to climb</p>
+    </div>
+  </section>
+
+  <section class="beat">
+    <div class="hold">
+      <article class="climb-card">
+      <div class="media">
+        <img src="/img/blender-journey/media/1donuttutorial.jpg" loading="lazy"
+             alt="The Blender donut tutorial">
+      </div>
+      <p class="eyebrow">2024 &middot; first attempt</p>
+      <h2>The donut</h2>
+      <p class="body">My first experience in Blender started where everyone&rsquo;s
+        does: the donut tutorial. Pause, rewind, hunt for the shortcut he just
+        used, wonder why the icing looks like candle wax.</p>
+    </article>
+      </div>
+  </section>
+
+  <section class="beat right">
+    <div class="hold">
+      <article class="climb-card">
+      <div class="media square">
+        <img src="/img/blender-journey/media/2claudedonut.png" loading="lazy"
+             alt="A donut rendered from a Claude-written Blender script">
+      </div>
+      <p class="eyebrow">2026 &middot; second attempt</p>
+      <h2>&lt;30 min</h2>
+      <p class="body">This year I found out Claude writes Blender&rsquo;s Python API.
+        So I described a donut instead of modelling one: the geometry, the icing,
+        the sprinkles, the light. In under half an hour I had a better one than
+        the weeks had bought me.</p>
+    </article>
+      </div>
+  </section>
+
+  <section class="beat">
+    <div class="hold">
+      <article class="climb-card">
+      <div class="media">
+        <img src="/img/blender-journey/media/3blenderscene.jpg" loading="lazy"
+             alt="The staircase scene open in Blender, with the walk camera and
+                  the fog volume in the outliner">
+      </div>
+      <p class="eyebrow">2026 &middot; this page</p>
+      <h2>The staircase</h2>
+      <p class="body">Same approach, a much bigger scene. The thirty-two steps and
+        their ninety-degree turn, the hall around them, the shelves, the props and
+        the walk up are all written as scripts. Blender renders the climb once;
+        the website you are scrolling plays it back.</p>
+    </article>
+      </div>
+  </section>
+
+  <section class="beat right">
+    <div class="hold">
+      <article class="climb-card">
+      <div class="media two">
+        <figure>
+          <img src="/img/blender-journey/frames/beauty_0121.webp" loading="lazy" alt="The rendered frame">
+          <figcaption>beauty pass</figcaption>
+        </figure>
+        <figure>
+          <img src="/img/blender-journey/frames/depth_0121.webp" loading="lazy" alt="The matching depth pass">
+          <figcaption>depth pass</figcaption>
+        </figure>
+      </div>
+      <p class="eyebrow">Under the hood</p>
+      <h2>How it works</h2>
+      <dl>
+        <dt>The fog is not in the render.</dt>
+        <dd>Blender bakes a second, invisible pass per frame: distance from the
+          camera, half a metre to forty. The browser reads it in a WebGL shader
+          and builds the haze live, so it keeps drifting when you stop scrolling.</dd>
+        <dt>The surfaces are photographed.</dt>
+        <dd>Stone, weathered timber and book cloth are scanned CC0 materials from
+          Poly Haven, with colour, roughness and normal maps, so the light finds
+          real grain to catch.</dd>
+        <dt>The camera has no timeline of its own.</dt>
+        <dd>It rides the same walking line the stairs were generated from, which
+          is how it takes the turn without being aimed. Its 240 frames are mapped
+          straight onto how far down the page you are.</dd>
+      </dl>
+    </article>
+      </div>
+  </section>
+
+  <section class="tail"></section>
+</div>
+
+<!-- The climb ends in light. Driven from render() rather than by a scroll
+     animation so it stays in step with the eased scroll the camera uses. -->
+<div id="white"></div>
+
+<!-- Fades in over the white once the climb has washed out. -->
+<div id="climb-outro">
+  <div class="climb-outro__inner">
+    <p class="climb-outro__eyebrow">My Blender Journey</p>
+    <h2 class="climb-outro__title">What Can I Build with Claude?</h2>
+    <p class="climb-outro__body">
+      I&rsquo;ve played around with Blender before, but then I found out Claude can
+      help you model objects and even entire scenes&hellip; obviously, I had to try
+      it myself. And because a static 3D scene wasn&rsquo;t enough, I made it
+      interactive too. So you can move through it by scrolling. The goal of this
+      project was to learn, experiment, and see what I&rsquo;m capable of creating
+      together with Claude. Basically, the perfect kind of project for my
+      playground.
+    </p>
+    <a class="climb-outro__back" href="/playground.html">&larr; Back to Playground</a>
+  </div>
+</div>
+
+<script src="/js/analytics.js"></script>
+<script src="/js/nav.js"></script>
+<!-- motion.js returns before its Lenis section when Lenis is undefined, so
+     loading it without the Lenis and GSAP tags brings the nav morph across on
+     its own. The climb keeps the easing it already has; a second smooth-scroll
+     layer on top of it would fight the camera. -->
+<script src="/js/motion.js"></script>
+
+<div id="load"><div id="bar"><i></i></div><small id="msg">loading frames…</small></div>
+
+<script type="x-shader/fragment" id="fs">#version 300 es
+precision highp float;
+in vec2 v_uv;
+out vec4 outColor;
+
+uniform sampler2D u_beauty;
+uniform sampler2D u_depth;
+uniform float u_time;
+uniform float u_near, u_far;
+uniform float u_density;     // fog per metre
+uniform float u_cloud;       // strength of the drifting banks
+uniform float u_drift;       // how fast they move
+
+// value noise + fbm. Cheap, and smooth enough for haze.
+float hash(vec3 p){ return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
+float vnoise(vec3 p){
+  vec3 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  float n000 = hash(i), n100 = hash(i + vec3(1,0,0));
+  float n010 = hash(i + vec3(0,1,0)), n110 = hash(i + vec3(1,1,0));
+  float n001 = hash(i + vec3(0,0,1)), n101 = hash(i + vec3(1,0,1));
+  float n011 = hash(i + vec3(0,1,1)), n111 = hash(i + vec3(1,1,1));
+  return mix(mix(mix(n000,n100,f.x), mix(n010,n110,f.x), f.y),
+             mix(mix(n001,n101,f.x), mix(n011,n111,f.x), f.y), f.z);
+}
+float fbm(vec3 p){
+  float a = 0.5, s = 0.0;
+  for (int i = 0; i < 5; i++){ s += a * vnoise(p); p *= 2.02; a *= 0.5; }
+  return s;
+}
+
+void main(){
+  vec3 col = texture(u_beauty, v_uv).rgb;
+
+  // depth pass is linear 0..1 across near..far, so this is metres
+  float dn = texture(u_depth, v_uv).r;
+  float dist = u_near + dn * (u_far - u_near);
+
+  float t = u_time * u_drift;
+
+  // Break the fog up so it is not a flat curtain, and let it move in time.
+  // This is the part a pre-rendered frame cannot do: it keeps drifting even
+  // when the page is not being scrolled.
+  float wob = fbm(vec3(v_uv * 3.0, t * 6.0));
+  float density = u_density * (0.55 + 0.9 * wob);
+
+  float fog = 1.0 - exp(-density * dist);
+  vec3 fogCol = mix(vec3(0.44, 0.46, 0.50), vec3(0.86, 0.84, 0.78),
+                    smoothstep(0.25, 0.95, v_uv.y));
+  col = mix(col, fogCol, clamp(fog, 0.0, 1.0));
+
+  // Cloud banks: slow, large, and held back from the very front of the frame
+  // so they read as depth rather than smears on the lens.
+  float bank = fbm(vec3(v_uv * vec2(2.2, 1.4) + vec2(t * 2.0, -t * 0.7), t * 3.0));
+  bank = smoothstep(0.42, 0.86, bank);
+  float far = smoothstep(0.06, 0.5, dn);
+  col = mix(col, fogCol * 1.06, bank * far * u_cloud);
+
+  outColor = vec4(col, 1.0);
+}
+</script>
+
+<script>
+// The browser restores the previous scroll position asynchronously after load,
+// which yanks a scroll-driven page to the wrong frame a moment after it starts.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+const cv = document.getElementById('gl');
+// preserveDrawingBuffer keeps the canvas readable after compositing. Without
+// it the buffer contents are undefined once the frame is presented, so any
+// screenshot or toDataURL taken later comes back blank.
+const gl = cv.getContext('webgl2',
+  { antialias: false, alpha: false, preserveDrawingBuffer: true });
+if (!gl) { document.getElementById('msg').textContent = 'WebGL2 not available'; }
+
+const VS = `#version 300 es
+in vec2 p; out vec2 v_uv;
+void main(){ v_uv = vec2(p.x * 0.5 + 0.5, 0.5 - p.y * 0.5); gl_Position = vec4(p, 0, 1); }`;
+
+function compile(type, src){
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src.trim()); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+  return s;
+}
+const prog = gl.createProgram();
+gl.attachShader(prog, compile(gl.VERTEX_SHADER, VS));
+gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, document.getElementById('fs').textContent));
+gl.linkProgram(prog);
+if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+gl.useProgram(prog);
+
+const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+const loc = gl.getAttribLocation(prog, 'p');
+gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+const U = n => gl.getUniformLocation(prog, n);
+function mkTex(unit){
+  const t = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+  for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR],
+                        [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]])
+    gl.texParameteri(gl.TEXTURE_2D, k, v);
+  return t;
+}
+const texB = mkTex(0), texD = mkTex(1);
+gl.uniform1i(U('u_beauty'), 0); gl.uniform1i(U('u_depth'), 1);
+
+// Fixed rather than adjustable: this build is for testing how the piece loads,
+// and a control panel over the frame is noise in that test. The numbers are the
+// ones settled on locally -- 0.034 replaced an earlier 0.056 that had been
+// tuned against a much brighter bake and was contributing about two thirds of
+// the image at the foot of the climb, flattening the detail beneath it.
+const ctrl = { density: 0.034, cloud: 0.58, drift: 0.048 };
+let man = null, beauty = [], depth = [], loaded = [], count = 0,
+    ready = false, shown = -1;
+
+// Same reason as the img paths above: this page is served at a URL with no
+// trailing slash, so every fetch is anchored to the site root by hand.
+const BASE = '/img/blender-journey/frames/';
+
+async function load(){
+  man = await (await fetch(BASE + 'manifest.json')).json();
+  gl.uniform1f(U('u_near'), man.depth_near);
+  gl.uniform1f(U('u_far'), man.depth_far);
+  count = man.frames.length;
+  loaded = new Array(count).fill(false);
+
+  // The manifest names the files, so a change of format or padding in the bake
+  // needs no matching edit here.
+  const name = (pat, f) =>
+    pat.replace(/%0(\d+)d/, (_, w) => String(f).padStart(+w, '0'));
+  const one = src => new Promise(res => {
+    const im = new Image();
+    im.onload = im.onerror = () => res(im);
+    im.src = src;
+  });
+
+  async function grab(i){
+    if (loaded[i]) return;
+    const f = man.frames[i];
+    const [b, d] = await Promise.all([one(BASE + name(man.beauty, f)),
+                                      one(BASE + name(man.depth, f))]);
+    beauty[i] = b; depth[i] = d; loaded[i] = true;
+  }
+
+  // Run a list of loads a few at a time. Firing all 240 at once does not make
+  // the pipe wider, and it lets the tail of the sequence compete with the
+  // frames the viewer is actually looking at.
+  async function pool(jobs, n){
+    let next = 0;
+    await Promise.all(Array.from({length: n}, async () => {
+      while (next < jobs.length) await jobs[next++]();
+    }));
+  }
+
+  const bar = document.querySelector('#bar i');
+
+  // Pass one: every eighth frame, plus both ends so the extremes are exact.
+  // That is an eighth of the bytes, and it is enough to start: scrubbing is
+  // briefly steppy and then quietly stops being so as the gaps fill.
+  const first = [];
+  for (let i = 0; i < count; i += 8) first.push(i);
+  if (first[first.length - 1] !== count - 1) first.push(count - 1);
+
+  let done = 0;
+  await pool(first.map(i => async () => {
+    await grab(i);
+    bar.style.width = (++done / first.length * 100) + '%';
+  }), 6);
+
+  ready = true;
+  const l = document.getElementById('load');
+  l.style.opacity = 0; setTimeout(() => l.remove(), 500);
+
+  // Pass two: halve the gap repeatedly rather than filling left to right, so
+  // the whole climb sharpens together instead of the top staying coarse
+  // until the very end.
+  for (const stride of [4, 2, 1]) {
+    const batch = [];
+    for (let i = 0; i < count; i += stride) if (!loaded[i]) batch.push(i);
+    await pool(batch.map(i => async () => { await grab(i); }), 6);
+  }
+  window.__allLoaded = true;
+}
+
+// The wanted frame may not have arrived yet during the refinement passes, so
+// fall back to the closest one that has. The substitute is at most a few
+// frames away and the eye reads it as the climb simply being less smooth.
+function nearestLoaded(i){
+  if (loaded[i]) return i;
+  for (let r = 1; r < count; r++){
+    if (loaded[i - r]) return i - r;
+    if (loaded[i + r]) return i + r;
+  }
+  return -1;
+}
+
+function upload(i){
+  const j = nearestLoaded(i);
+  if (j < 0 || j === shown) return;
+  shown = j;
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texB);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, beauty[j]);
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texD);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, depth[j]);
+}
+
+function resize(){
+  const d = Math.min(devicePixelRatio || 1, 2);
+  const w = Math.round(cv.clientWidth * d), h = Math.round(cv.clientHeight * d);
+  // A collapsed or hidden container reports zero size; sizing the canvas to
+  // 0x0 makes every later draw a no-op, so leave it alone until it has area.
+  if (w < 2 || h < 2) return false;
+  if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; gl.viewport(0, 0, w, h); }
+  return true;
+}
+addEventListener('resize', resize);
+
+// The lock is however much taller the opening section is than the sticky title
+// inside it -- that difference is exactly how far the page scrolls before the
+// title starts to move, so it is also exactly how far the camera should wait.
+// Measured rather than restated, so the stylesheet stays the only place the
+// length is set.
+const leadTrack = document.querySelector('.lead');
+const lockPx = () => leadTrack
+  ? Math.max(0, leadTrack.offsetHeight - leadTrack.firstElementChild.offsetHeight)
+  : 0;
+
+// Raw scroll is jumpy, so ease toward the target instead of snapping to it.
+// Progress is measured from the far side of the lock, so the camera reads 0
+// throughout it and starts moving from its first frame once it is over.
+let target = 0, eased = 0;
+function progress(){
+  const max = document.body.scrollHeight - innerHeight, from = lockPx();
+  return max > from ? Math.min(1, Math.max(0, (scrollY - from) / (max - from))) : 0;
+}
+
+const beats = [...document.querySelectorAll('.beat')];
+const lead = document.getElementById('lead');
+const whiteEl = document.getElementById('white');
+const outroEl = document.getElementById('climb-outro');
+
+const cards = beats.map(b => b.querySelector('.climb-card'));
+
+const sstep = u => { u = Math.min(1, Math.max(0, u)); return u * u * (3 - 2 * u); };
+
+const FADE = 0.2;          // share of a beat's travel spent arriving, and leaving
+
+// The ending is measured in viewport heights from the bottom of the page rather
+// than in shares of it, because what matters there is how much screen the reader
+// still has to travel -- and a share of a page this long is not a fixed amount
+// of that. `at(n)` converts "n screens from the end" into the same 0..1 space
+// `eased` lives in, so the wash keeps its eased feel and the note underneath it
+// always gets the same room whatever the track length turns out to be.
+const WASH = [2.3, 1.3];   // wash to white: starts 2.3 screens out, solid at 1.3
+const NOTE = [1.1, 0.5];   // the closing note: begins after the wash has landed
+
+function render(now){
+  if (!resize()) return;
+  upload(Math.round(eased * (count - 1)));
+  gl.uniform1f(U('u_time'), now * 0.001);
+  gl.uniform1f(U('u_density'), ctrl.density);
+  gl.uniform1f(U('u_cloud'), ctrl.cloud);
+  gl.uniform1f(U('u_drift'), ctrl.drift);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+  const vh = innerHeight;
+  const lock = lockPx();
+  // Scrolled past the lock, in pixels: 0 for the whole of it, so everything
+  // downstream of this line sits still while the nav is the only thing moving.
+  const past = Math.max(0, scrollY - lock);
+  // The opening title is tied to raw scroll rather than to the beat test, so it
+  // starts leaving on the first flick of the wheel past the lock instead of
+  // waiting to cross a band -- there is nothing above it to fade it against.
+  // Only its opacity is written here; where it sits is the stylesheet's job,
+  // and an opacity arriving a frame late does not show the way a position
+  // arriving a frame late does.
+  if (lead) lead.style.opacity = Math.max(0, 1 - past / (vh * 0.6));
+  // u runs 0 to 1 as a beat crosses the screen: 0 with its top edge at the
+  // bottom of the viewport, 1 with its bottom edge at the top. The card is up
+  // by a fifth of the way through and starts leaving at four fifths, which
+  // brackets the sticky stretch in the middle with room to spare either side.
+  // The lock needs no correction here: it is real height sitting above the
+  // beats, so through it every beat is one lock further down the page and
+  // reaches the frame no earlier than it did before.
+  beats.forEach((b, i) => {
+    const r = b.getBoundingClientRect();
+    const u = (vh - r.top) / (r.height + vh);
+    const a = Math.min(sstep(u / FADE), sstep((1 - u) / FADE));
+    const c = cards[i];
+    c.style.opacity = a;
+    c.style.transform = a > 0.999 ? 'none'
+      : `translateY(${((1 - a) * 1.8).toFixed(2)}rem) scale(${(0.986 + a * 0.014).toFixed(4)})`;
+  });
+
+  // Tied to the eased scroll rather than to the camera, so the wash tracks the
+  // page the reader is moving and not the frame rate of the climb.
+  const maxS = document.body.scrollHeight - vh;
+  const at = n => maxS > lock
+    ? Math.max(0, (maxS - vh * n - lock) / (maxS - lock)) : 1;
+  const band = ([a, b]) => sstep((eased - at(a)) / Math.max(1e-4, at(b) - at(a)));
+
+  whiteEl.style.opacity = band(WASH);
+  const note = band(NOTE);
+  outroEl.style.opacity = note;
+  // The note carries the only link on this screen, so it has to stop being
+  // inert once it is actually readable.
+  outroEl.style.pointerEvents = note > 0.85 ? 'auto' : 'none';
+}
+
+function tick(now){
+  requestAnimationFrame(tick);
+  if (!ready) return;
+  target = progress();
+  eased += (target - eased) * 0.09;
+  render(now);
+}
+
+// Draw once, synchronously, with the easing snapped to the current scroll.
+// requestAnimationFrame is paused whenever the tab is not visible, so without
+// this there is no way to inspect or capture the page from a background tab.
+window.__forceDraw = () => {
+  if (!ready) return null;
+  target = eased = progress();
+  render(performance.now());
+  return { frame: man.frames[shown], index: shown, progress: +eased.toFixed(3) };
+};
+
+// read back canvas pixels, to check coverage independently of screenshots
+window.__probe = () => {
+  const w = cv.width, h = cv.height;
+  const px = new Uint8Array(4);
+  const at = (x, y) => { gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+                         return [px[0], px[1], px[2]]; };
+  return { size: [w, h], viewport: Array.from(gl.getParameter(gl.VIEWPORT)),
+           topLeft: at(2, h - 3), topMid: at(w >> 1, h - 3),
+           centre: at(w >> 1, h >> 1), bottomMid: at(w >> 1, 2) };
+};
+
+// jump to a point in the climb and draw it, for inspection
+window.__goto = p => {
+  const max = document.body.scrollHeight - innerHeight, from = lockPx();
+  scrollTo(0, from + (max - from) * p);
+  return window.__forceDraw();
+};
+requestAnimationFrame(tick);
+load();
+</script>
+</body>
+</html>

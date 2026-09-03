@@ -1073,8 +1073,15 @@ body.is-home {
 .contact__link:hover .contact__link-value { color: var(--color-accent); }
 
 /* =========================================================================
-   PLAYGROUND  — masonry grid (CSS multi-column). Sketchbook feel, no
-   enforced uniformity; each tile carries its own aspect ratio.
+   PLAYGROUND  — tile grid. Sketchbook feel, no enforced uniformity; each tile
+   carries its own aspect ratio and so its own height.
+
+   A three-column grid rather than CSS multi-column. Multi-column decides the
+   split by balancing height, which meant the order tiles were read in was a
+   side effect of how tall their images happened to be -- reordering the source
+   moved a tile to a different column than the one intended, and adding a fifth
+   tile would reshuffle the other four. The grid places tiles in source order,
+   left to right, so the running order is the one written in the HTML.
    ========================================================================= */
 .playground {
   padding-top: clamp(120px, 16vh, 180px);
@@ -1091,14 +1098,14 @@ body.is-home {
 }
 
 .masonry {
-  columns: 3;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: var(--space-lg);
+  row-gap: var(--space-2xl);
+  /* Tiles hang from the top of their row; the ragged bottom edge is the point,
+     so a short tile must not stretch to match a tall neighbour. */
+  align-items: start;
   margin-top: var(--space-2xl);
-}
-
-.masonry__item {
-  break-inside: avoid;
-  margin-bottom: var(--space-2xl);
 }
 
 .masonry__media {
@@ -1113,6 +1120,7 @@ body.is-home {
 .masonry__media--square { aspect-ratio: 1 / 1; }
 .masonry__media--phone  { aspect-ratio: 9 / 16; }   /* app screenshots */
 .masonry__media--logo    { aspect-ratio: 1 / 1; }   /* app icon / logo */
+.masonry__media--film   { aspect-ratio: 16 / 9; }   /* rendered frames */
 
 /* App-icon tiles: the mark sits centred on the app's own dark background,
    contained (never cropped) with breathing room around it. */
@@ -1438,11 +1446,11 @@ body.is-home {
 
 /* ---- Masonry column reductions ---- */
 @media (max-width: 960px) {
-  .masonry { columns: 2; }
+  .masonry { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 600px) {
-  .masonry { columns: 1; }
+  .masonry { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* =========================================================================
